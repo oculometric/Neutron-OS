@@ -1,0 +1,14 @@
+						List of COSH Commands:
+cosh		: Shows version and source information about the shell
+list 		: Lists files in the working directory
+dirc		: Change the current working directory
+cref		: Create a file
+remf		: Remove a file
+copy		: Copy a file from one location to another
+move		: Move a file from one location to another
+clib		: Clipboard command (copy/paste data)
+edit		: Edit the contents of a file as text
+modv		: Modifiy the value of a global variable
+echo		: Print out a string
+bell		: Send the bell character
+l...		: Logic gate commands

@@ -17,19 +17,18 @@ unsigned long long heapSpace = 4294967296/2;
 void memset(char *dest, char src, int len) {
 	char *p = dest;
   int c = len;
-  while (c--) {
+  while (c) {
     *(p++) = src;
+		c--;
   }
-}
-
-void memset(char *dest, char src) {
-  *dest = src;
 }
 
 void memcpy(char *dest, char *src, int length) {
 	char *p = dest;
-	while (length--) {
+	int w = length;
+	while (w > 0) {
 		*(p++) = *(src++);
+		w--;
 	}
 }
 

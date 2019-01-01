@@ -9,19 +9,22 @@ assembly_object_files := $(patsubst src/arch/$(arch)/asm/%.asm, build/arch/$(arc
 
 cpp_source_files := $(wildcard src/arch/$(arch)/cc/*.cc)
 cpp_object_files := $(patsubst src/arch/$(arch)/cc/%.cc, build/arch/$(arch)/%.o, $(cpp_source_files))
-logfile :=          "log/serial/Serial-`date +'%d.%m.%y %H:%M:%S'`"
+date    :=          `date +'%d.%m.%y_%H-%M-%S'`
+logfile :=          log/serial/Serial-$(date)
 
 .PHONY: all clean run iso
 
 all: $(kernel)
 
 clean:
+	@echo "Cleaning"
 	@rm -r build
 
 run: $(iso)
+	@echo "Starting"
 	@touch $(logfile)
 	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile)
-	if [ -s /tmp/myfile.txt ] then
+	if [ -s $(logfile) ] then
 	else
 		@rm $(logfile)
 	fi
@@ -29,6 +32,7 @@ run: $(iso)
 iso: $(iso)
 
 $(iso): $(kernel) $(grub_cfg)
+	@echo "Generating iso file"
 	@mkdir -p build/isofiles/boot/grub
 	@cp $(kernel) build/isofiles/boot/kernel.bin
 	@cp $(grub_cfg) build/isofiles/boot/grub
@@ -36,14 +40,17 @@ $(iso): $(kernel) $(grub_cfg)
 	@rm -r build/isofiles
 
 $(kernel): $(cpp_object_files) $(assembly_object_files) $(linker_script)
+	@echo "Linking all"
 	@~/opt/cross/bin/x86_64-elf-ld -n -o $(kernel) -T $(linker_script) $(cpp_object_files) $(assembly_object_files)
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
+	@echo "Compiling assembly source file " $<
 	@mkdir -p $(shell dirname $@)
 	@nasm -f elf64 $< -o $@
 
 # compile c++ files
 build/arch/$(arch)/%.o: src/arch/$(arch)/cc/%.cc
+	@echo "Compiling C++ source file " $<
 	@mkdir -p $(shell dirname $@)
 	@~/opt/cross/bin/x86_64-elf-g++ -c $< -o $@ -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w

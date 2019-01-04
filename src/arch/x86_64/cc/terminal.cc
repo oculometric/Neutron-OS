@@ -12,11 +12,8 @@ uint8_t Terminal::make_color(enum vga_color fg, enum vga_color bg) {
   return fg | bg << 4;
 }
 
-// Generate a VGA entry from a colour and a character
-uint16_t Terminal::make_vgaentry(char c, uint8_t color) {
-  uint16_t c16 = c;
-  uint16_t color16 = color;
-  return c16 | color16 << 8;
+unsigned short Terminal::makeVGA (unsigned short col, char c) {
+	return (col << 8) | c;
 }
 
 // Move the cursor to the end of the text
@@ -33,9 +30,11 @@ void Terminal::updateCursorLocation() {
 void Terminal::moveToNextLine () {
   terminal_row++;
   terminal_column = 0;
-  if (terminal_row == VGA_HEIGHT) {
-    terminal_row = 0;
-    resetTerminal();
+  if (terminal_row > VGA_HEIGHT) {
+    terminal_row = VGA_HEIGHT;
+    for (int i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++) {
+			videoMemStart[i] = videoMemStart[i+VGA_WIDTH];
+		}
   }
   updateCursorLocation();
 }
@@ -48,8 +47,8 @@ void Terminal::appendChar (char c) {
   } else if (c == '\b') {
     deleteChars (1);
   } else {
-    unsigned short charLoc = ((terminal_row * VGA_WIDTH) + terminal_column);
-    videoMemStart[charLoc] = make_vgaentry (c, activeStyleFlag);
+		int place = (VGA_WIDTH * terminal_row) + terminal_column;
+    videoMemStart[place] = makeVGA(activeStyleFlag, c);
     terminal_column++;
     if (terminal_column > VGA_WIDTH) {
       moveToNextLine();
@@ -59,10 +58,11 @@ void Terminal::appendChar (char c) {
 }
 
 void Terminal::deleteChars (int num) {
-  while (num-- && terminal_column) {
-    terminal_column--;
-    unsigned short charLoc = ((terminal_row * VGA_WIDTH) + terminal_column);
-    videoMemStart[charLoc] = make_vgaentry (' ', activeStyleFlag);
+	unsigned short c = makeVGA(0x00, ' ');
+	int startPoint = (VGA_WIDTH * terminal_row) + terminal_column;
+  while (num-- && terminal_column--) {
+    videoMemStart[startPoint] = c;
+		startPoint--;
   }
   updateCursorLocation();
 }
@@ -70,7 +70,7 @@ void Terminal::deleteChars (int num) {
 void Terminal::print (const char *s) {
   do {
     appendChar (*s);
-  } while (*(s++) != '\0');
+  } while (*(++s) != '\0');
 }
 
 void Terminal::println (const char *s) {
@@ -84,15 +84,13 @@ void Terminal::setActiveStyleFlag (char flag) {
 }
 
 void Terminal::deleteLines (int num) {
-  num++;
-  while (num-- && terminal_row) {
-    unsigned short st = ((terminal_row * VGA_WIDTH));
-    unsigned short charLoc;
-    for (terminal_column = 0; terminal_column < VGA_WIDTH; terminal_column++) {
-      charLoc = (st + terminal_column);
-      videoMemStart[charLoc] = make_vgaentry (' ', activeStyleFlag);
-    }
-    terminal_row--;
+	unsigned short c = makeVGA(0x00, ' ');
+  while (num-- && terminal_row--) {
+		int rowStart = (VGA_WIDTH * (terminal_row));
+    int rowEnd = (VGA_WIDTH * (terminal_row+1));
+		for (int i = rowStart; i < rowEnd; i++) {
+			videoMemStart[i] = c;
+		}
   }
   terminal_column = 0;
   terminal_row++;
@@ -100,7 +98,12 @@ void Terminal::deleteLines (int num) {
 }
 
 void Terminal::resetTerminal () {
-  for (int o = 0; o < (VGA_WIDTH * VGA_HEIGHT); o++) {
-    videoMemStart[o] = make_vgaentry (' ', activeStyleFlag);
-  }
+	unsigned short c = makeVGA(0x00, ' ');
+	int numPlaces = VGA_WIDTH * VGA_HEIGHT;
+	for (int i = 0; i < numPlaces; i++) {
+		videoMemStart[i] = c;
+	}
+	terminal_column = 0;
+	terminal_row = 0;
+	updateCursorLocation();
 }

@@ -27,16 +27,16 @@ public:
   void setActiveStyleFlag (char flag);
   uint8_t make_color(enum vga_color fg, enum vga_color bg);
   void resetTerminal ();
+	unsigned short makeVGA (unsigned short col, char c);
 private:
   void appendChar (char c);
   void moveToNextLine ();
-  uint16_t *videoMemStart = (uint16_t *)0xB8000;
+	unsigned short *videoMemStart = (unsigned short *)0xB8000;
   char activeStyleFlag = 0x07;
   int terminal_row = 0;
 	int terminal_column = 0;
   static const size_t VGA_WIDTH = 80;
 	static const size_t VGA_HEIGHT = 25;
 
-  uint16_t make_vgaentry(char c, uint8_t color);
   void updateCursorLocation ();
 };

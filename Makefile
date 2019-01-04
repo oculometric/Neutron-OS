@@ -16,6 +16,10 @@ logfile :=          log/serial/Serial-$(date)
 
 all: $(kernel)
 
+cleanserial:
+	@echo "Clearing serial logs"
+	@rm log/serial/*
+
 clean:
 	@echo "Cleaning"
 	@rm -r build

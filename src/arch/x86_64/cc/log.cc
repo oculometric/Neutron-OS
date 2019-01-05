@@ -22,7 +22,7 @@ void init_serial() {
   outb(PORT + 3, 0x80); // Enable DLAB (set baud rate divisor)
   outb(PORT + 0, 0x03); // Set divisor to 3 (lo byte) 38400 baud
   outb(PORT + 1, 0x00); //                  (hi byte)
-  outb(PORT + 3, 0x03); // 8 bits, no parity, one stop bit // FIXME: this line causes a jump to 0x0000000019c80010 outside ROM
+  outb(PORT + 3, 0x03); // 8 bits, no parity, one stop bit
   outb(PORT + 2, 0xC7); // Enable FIFO, clear them, with 14-byte threshold
   outb(PORT + 4, 0x0B); // IRQs enabled, RTS/DSR set
 }
@@ -70,7 +70,7 @@ void logInt (long int i) {
   logLn (s);
 }
 
-void logHex (int i) {
+void logHex (long long int i) {
   int c = i;
   int r = 0;
   do {
@@ -92,7 +92,18 @@ void fatal (char *msg) {
   logLn ("==========FATAL==========");
   logLn (msg);
   logLn ("=========================");
-	//shouldContinue = false;
+	asm (R"(
+		movq $0x4F524F45, 0xB8000 # ER
+		movq $0x4F3A4F52, 0xB8004 # R:
+		movq $0x4F204F20, 0xB8008	#
+		movq $0x4F454F53, 0xB800C # SE
+		movq $0x4F204F45, 0xB8010 # E
+		movq $0x4F4F4F4C, 0xB8014 # LO
+		movq $0x4F204F47, 0xB8018 # G
+		movq $0x4F494F46, 0xB801C # FI
+		movq $0x4F454F4C, 0xB8020 # LE
+
+		hlt	)");
 }
 
 // Log a warning

@@ -4,6 +4,13 @@ extern kernel_main
 section .text
 bits 64
 longModeStart:
+	mov ax, 0
+	mov ss, ax
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+
 	mov rax, 0x2F592F412F4B2F4F			; A quadword meaning 'OKAY'
 	mov qword [0xB8000], rax
 	call kernel_main								; Call the higher C++ kernel

@@ -17,7 +17,7 @@ void logLn(char *s);
 void log(char *s);
 void logChar (char c);
 void logInt (long int i);
-void logHex (int i);
+void logHex (long long int i);
 void logBool (bool b);
 
 void fatal (char *msg);

@@ -9,7 +9,7 @@ assembly_object_files := $(patsubst src/arch/$(arch)/asm/%.asm, build/arch/$(arc
 
 cpp_source_files := $(wildcard src/arch/$(arch)/cc/*.cc)
 cpp_object_files := $(patsubst src/arch/$(arch)/cc/%.cc, build/arch/$(arch)/%.o, $(cpp_source_files))
-date    :=          `date +'%d.%m.%y_%H-%M-%S'`
+date    :=          `date +'%d.%m.%y_%H-%M-%S'`.log
 logfile :=          log/serial/Serial-$(date)
 
 .PHONY: all clean run iso
@@ -27,11 +27,12 @@ clean:
 run: $(iso)
 	@echo "Starting"
 	@touch $(logfile)
-	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile)
-	if [ -s $(logfile) ] then
-	else
-		@rm $(logfile)
-	fi
+	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G
+
+debug: $(iso)
+	@echo "Starting debug"
+	@touch $(logfile)
+	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G -s -S
 
 iso: $(iso)
 

@@ -2,10 +2,14 @@ section .text
 bits 32
 
 global start
+global errorOccurred
 extern longModeStart
 
 start:
 	mov esp, stack_top							; Prepare the stack
+	;mov edi, ebx										; Move multiboot information pointer into ebx
+	push eax
+	push ebx
 	call checkMultiboot							; Check that we were loaded as multiboot
 	call checkCpuid									; Make sure the CPU supports CPUID
 	call checkLongMode							; Check that long more is available
@@ -37,20 +41,20 @@ checkMultiboot:										; Ensures a multiboot bootloader loaded the kernel
 
 checkCpuid:							; Check if CPUID is supported by attempting to flip the ID bit (bit 21)
 												; in the FLAGS register. If we can flip it, CPUID is available.
-	pushfd								; Copy FLAGS in to EAX via stack
+	pushfd								; Copy FLAGS in to eax via stack
 	pop eax
 	mov ecx, eax					; Copy to ECX as well for comparing later on
 	xor eax, 1 << 21			; Flip the ID bit
 	push eax							; Copy EAX to FLAGS via the stack
 	popfd
 
-	pushfd								; Copy FLAGS back to EAX (with the flipped bit if CPUID is supported)
+	pushfd								; Copy FLAGS back to eax (with the flipped bit if CPUID is supported)
 	pop eax
 
-	push ecx							; Restore FLAGS from the old version stored in ECX (i.e. flipping the ID bit back if it was ever flipped).
+	push ecx							; Restore FLAGS from the old version stored in ecx (i.e. flipping the ID bit back if it was ever flipped).
 	popfd
 
-	cmp eax, ecx					; Compare EAX and ECX. If they are equal then that means the bit wasn't flipped, and CPUID isn't supported.
+	cmp eax, ecx					; Compare eax and ecx. If they are equal then that means the bit wasn't flipped, and CPUID isn't supported.
 	je .noCpuid
 	ret
 .noCpuid:								; The system was found not to be capable of CPUID.
@@ -122,7 +126,7 @@ p3_table:
 p2_table:
   resb 4096
 stack_bottom:
-	resb 64
+	resb 4096 * 4
 stack_top:
 
 section .rodata
@@ -130,6 +134,8 @@ gdt64:					; 64-bit GDT for long mode
 	dq 0					; Zero entry
 .code: equ $ - gdt64
 	dq (1<<43) | (1<<44) | (1<<47) | (1<<53) ; Defines a number with bits 43, 44, 47, 53 set to 1
+.data: equ $ - gdt64
+	dq (1<<44) | (1<<47) | (1<<41) ; Defines a number with bits 44, 47, 41 set to 1
 .pointer:
 	dw $ - gdt64 - 1
 	dq gdt64

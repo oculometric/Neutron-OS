@@ -2,11 +2,20 @@ void memset(char *dest, char src, int len);
 
 void memcpy(char *dest, char *src, int length);
 
-typedef struct heap_block {
+struct heap_block {
     size_t size;
     bool isFree;
-    void *x;
-} header;
+    heap_block *next;
+} __attribute__((packed));
+
+// typedef struct multiboot_memory_map {
+// 	unsigned int size;
+// 	unsigned int base_addr_low,base_addr_high;
+// 	unsigned long long int base_addr;
+// 	unsigned int length_low,length_high;
+// 	// You can also use: unsigned long long int length; if supported.
+// 	unsigned int type;
+// } multiboot_memory_map_t;
 
 void prepMemory ();
 
@@ -24,6 +33,6 @@ void * operator new(size_t size);
 
 void * operator new[](size_t size);
 
-void operator delete(void *p);
+void operator delete(void *p, unsigned long);
 
-void operator delete[](void *p);
+void operator delete[](void *p, unsigned long);

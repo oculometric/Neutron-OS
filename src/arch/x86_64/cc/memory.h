@@ -35,4 +35,4 @@ void * operator new[](size_t size);
 
 void operator delete(void *p, unsigned long);
 
-void operator delete[](void *p, unsigned long);
+void operator delete[](void *p);

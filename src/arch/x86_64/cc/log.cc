@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #include "log.h"
-#include "string.h"
+
 
 // Get a byte of input
 uint8_t inb(uint16_t port) {
@@ -85,6 +85,13 @@ void logHex (long long int i) {
 void logBool (bool b) {
   char *s = b ? (char *)"true" : (char *)"false";
   logLn (s);
+}
+
+void logLn (string *s) {
+	logLn (s->getData());
+}
+void log (string *s) {
+	log (s->getData());
 }
 
 //Log that a fatal error occurred

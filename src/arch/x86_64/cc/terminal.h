@@ -1,3 +1,5 @@
+#include "string.h"
+
 enum vga_color {
   COLOR_BLACK = 0,
   COLOR_BLUE = 1,
@@ -22,6 +24,8 @@ class Terminal {
 public:
   void print (const char *s);
   void println (const char *s);
+	void print (string *s);
+  void println (string *s);
   void deleteChars (int num);
   void deleteLines (int num);
   void setActiveStyleFlag (char flag);

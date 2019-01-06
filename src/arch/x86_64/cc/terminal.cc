@@ -4,6 +4,7 @@
 
 #include "terminal.h"
 #include "log.h"
+#include "string.h"
 
 // ALL OF THESE FUNCTIONS REQUIRE THE SYSTEM TO BE IN VGA GRAPHICS MODE 0x3H
 
@@ -77,6 +78,15 @@ void Terminal::println (const char *s) {
   print (s);
   moveToNextLine();
   updateCursorLocation();
+}
+
+void Terminal::print (string *s) {
+	this->print((char *)s->getData());
+}
+void Terminal::println (string *s) {
+	logHex ((long)s);
+	logLn (s);
+	this->println((char *)s->getData());
 }
 
 void Terminal::setActiveStyleFlag (char flag) {

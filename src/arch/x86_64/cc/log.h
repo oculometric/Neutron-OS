@@ -1,5 +1,5 @@
 #define PORT 0x3F8 /* COM1 */
-
+#include "string.h"
 uint8_t inb(uint16_t port);
 void outb(unsigned short port, unsigned char val);
 
@@ -13,8 +13,10 @@ int serial_received();
 
 char read_serial();
 
-void logLn(char *s);
-void log(char *s);
+void logLn (char *s);
+void logLn (string *s);
+void log (string *s);
+void log (char *s);
 void logChar (char c);
 void logInt (long int i);
 void logHex (long long int i);

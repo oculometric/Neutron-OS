@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+
 #include "memory.h"
 #include "log.h"
 
@@ -122,4 +123,4 @@ void * operator new[] (size_t size) { return malloc(size); }
 
 void operator delete (void *p, unsigned long) {free(p); }
 
-void operator delete[] (void *p, unsigned long) { free(p); }
+void operator delete[] (void *p) { free(p); }

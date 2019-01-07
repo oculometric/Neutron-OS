@@ -45,11 +45,23 @@ string::string (const string *s) {
 	length = s->length;
 }
 
-string string::operator=(const string inst) { // TODO: Upon reassignment, old value is not freed
-	delete strPointer;
-	strPointer = inst.strPointer;
+void string::copyFrom (const string inst) {
+	if (inst.length > this->length) {
+		delete strPointer;
+		strPointer = (char *)calloc (sizeof (char)*(inst.length+4));
+	}
+	memcpy(strPointer, inst.strPointer, inst.length);
 	this->length = inst.length;
-	this->ccapacity = inst.length+4;
+}
+
+void string::copyFrom (const char *inst) {
+	int slen = strlen ((char *)inst);
+	if (slen > this->length) {
+		delete strPointer;
+		strPointer = (char *)calloc (sizeof (char)*(slen+4));
+	}
+	memcpy(strPointer, (char *)inst, slen);
+	this->length = slen;
 }
 
 bool string::isEmpty() {
@@ -72,6 +84,51 @@ string::~string() {
     delete [] this->strPointer;
 }
 
+void string::append (const string other) {
+	int newLen = this->length + other.length;
+
+	char *newPtr = (char *)calloc (sizeof (char)*(newLen+4));
+
+	memcpy (newPtr, this->strPointer, this->length);
+	memcpy (newPtr+this->length, other.strPointer, other.length);
+	this->length = newLen;
+	this->ccapacity = newLen+4;
+	delete strPointer;
+	this->strPointer = newPtr;
+}
+
+void string::append (const char *other) {
+	int slen = strlen ((char *)other);
+	int newLen = this->length + slen;
+
+	char *newPtr = (char *)calloc (sizeof (char)*(newLen+4));
+
+	memcpy (newPtr, this->strPointer, this->length);
+	memcpy (newPtr+this->length, (char *)other, slen);
+	this->length = newLen;
+	this->ccapacity = newLen+4;
+	delete strPointer;
+	this->strPointer = newPtr;
+}
+
+void string::append (const char c) {
+	if (this->length+1 >= this->ccapacity) {
+		int newLen = this->length + 1;
+
+		char *newPtr = (char *)calloc (sizeof (char)*(newLen+4));
+
+		memcpy (newPtr, this->strPointer, this->length);
+		memset (newPtr+this->length, c, 1);
+		this->length = newLen;
+		this->ccapacity = newLen+4;
+		delete strPointer;
+		this->strPointer = newPtr;
+	} else {
+		memset (this->strPointer+this->length, c, 1);
+		this->length++;
+	}
+}
+
 string * string::appending (const string other) {
 	int newLen = this->length + other.length;
 	string *s = new string (newLen);
@@ -81,9 +138,10 @@ string * string::appending (const string other) {
 }
 
 string * string::appending (const char *other) {
-	int slen = strlen ((char *)other);
-	int newLen = this->length + slen;
-	string *s = new string (newLen);
+	int slen = strlen ((char *)other); logInt (slen);
+	int newLen = this->length + slen; logInt (newLen);
+	string *s = new string (newLen+4);
+	s->length = newLen;
 	memcpy (s->strPointer, this->strPointer, this->length);
 	memcpy (s->strPointer+this->length, (char *)other, slen);
 	return s;

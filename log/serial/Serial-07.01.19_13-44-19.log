@@ -2,9 +2,6 @@ Welcome to the Neutron-OS kernel. This is a debug log.
 Preparing memory...             Done.
 Initialising terminal object... Done.
 Clearing terminal...            Done.
-0x1000131
-0x10000c1
-0x100016a
 Logging allocation table:
 Meta Address=0x1000000
 Memory Address=0x1000011
@@ -48,7 +45,7 @@ Size=27
 
 Meta Address=0x1000120
 Memory Address=0x1000131
-Is Free=false
+Is Free=true
 Size=7
 
 Meta Address=0x1000138
@@ -59,16 +56,38 @@ Size=16
 Meta Address=0x1000159
 Memory Address=0x100016a
 Is Free=false
-Size=10
+Size=14
 
-Meta Address=0x1000174
-Memory Address=0x1000185
+Meta Address=0x1000178
+Memory Address=0x1000189
+Is Free=false
+Size=16
+
+Meta Address=0x1000199
+Memory Address=0x10001aa
+Is Free=false
+Size=47
+
+Meta Address=0x10001d9
+Memory Address=0x10001ea
+Is Free=false
+Size=14
+
+Meta Address=0x10001f8
+Memory Address=0x1000209
 Is Free=true
-Size=4294966907
+Size=4294966775
 
 Hello, World!
  and everyone.
 Hello, World! and everyone.
-Hi, no-one{þÿÿ
-0x10000e4
-Hello, World! and everyone.
+Hi, no one.
+ everyone.
+
+Logging allocation table:
+Meta Address=0x1000000
+Memory Address=0x1000011
+Is Free=true
+Size=4294967279
+
+Halting.

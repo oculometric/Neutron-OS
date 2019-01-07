@@ -84,8 +84,6 @@ void Terminal::print (string *s) {
 	this->print((char *)s->getData());
 }
 void Terminal::println (string *s) {
-	logHex ((long)s);
-	logLn (s);
 	this->println((char *)s->getData());
 }
 

@@ -31,6 +31,11 @@ public:
 	string * appending (const string other);
 	string * appending (const char *other);
 	string * appending (const char other);
+	void append (const string other);
+	void append (const char *other);
+	void append (const char other);
+	void copyFrom (const string inst);
+	void copyFrom (const char *chrs);
 	bool isEmpty ();												// Detect if the string is empty
 	int size ();														// Get the size of the string (i.e. how many characters there are)
 	int capacity ();												// Get the maximum buffer size of the string at the moment

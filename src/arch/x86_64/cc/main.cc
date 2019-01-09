@@ -7,6 +7,7 @@
 #include "memory.h"
 #include "terminal.h"
 #include "util.h"
+#include "interrupts.h"
 
 const char *stringg = "Hello, World! Num is: ";
 
@@ -52,7 +53,8 @@ void testTerminal () {
 	logLn ("Done.");
 }
 
-extern "C" void kernel_main (multiboot_info* mbd, unsigned int magic) {
+extern "C" void kernel_main (uint8_t codeSelector) {
+	logHex ((long)codeSelector);
 	init_serial();
 	logLn ("Welcome to the Neutron-OS kernel. This is a debug log.");
 
@@ -68,37 +70,20 @@ extern "C" void kernel_main (multiboot_info* mbd, unsigned int magic) {
 	t->resetTerminal();
 	logLn ("Done.");
 
-	string *s1 = new string ("Hello, World!");
-	string *s2 = new string (" and everyone.");
-	string *s3 = s1->appending(s2);
-	string *s4 = new string ("Hi,");
-	string *s5 = new string (" everyone.");
-	string *s6 = new string ();
-	s6->copyFrom("Hello, World");
-	s6->append(s5);
-	s4->append(" no one.");
+	log ("Initialising IDT...             ");
+	initIDT(codeSelector);
+	logLn ("Done.");
+	log ("Running interrupt test...       ");
+	asm (R"(
+		sti
+		int $0x01
+	)");
+	logLn ("Success!");
+	//setupPICs();
+	//setScanCodeSet(3);
+	while (true);
+	//setScanCodeSet (3);
 
-	logAllocationTable();
-
-	logLn (s1);
-	logLn (s2);
-	logLn (s3);
-	logLn (s4);
-	logLn (s5);
-	logLn (s6);
-
-	t->println(s3);
-	t->println(s4);
-
-	delete t;
-	delete s1;
-	delete s2;
-	delete s3;
-	delete s4;
-	delete s5;
-	delete s6;
-	updateAllocationTable();
-	logAllocationTable();
 
 	logLn ("Halting.");
 	return;

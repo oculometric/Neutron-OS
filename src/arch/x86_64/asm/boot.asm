@@ -18,7 +18,7 @@ start:
 	call enablePaging
 
 	lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
-
+	call EnableA20
 	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
 
 	jmp gdt64.code:longModeStart		; Perform the long-awaited far jump to the start of long mode code
@@ -117,6 +117,16 @@ enablePaging: 					; Enable memory paging
 
 	ret
 
+EnableA20:
+	in al, 0x92         ; A20, using fast A20 gate
+	mov cl, al
+	and cl, 2
+	jnz .skip            ; if a20 bit seems set, don't touch it
+	or al, 2
+	out 0x92, al
+	.skip:
+	ret
+
 section .bss
 align 4096
 p4_table:
@@ -129,6 +139,7 @@ stack_bottom:
 	resb 4096 * 4
 stack_top:
 
+global gdt64.code
 section .rodata
 gdt64:					; 64-bit GDT for long mode
 	dq 0					; Zero entry

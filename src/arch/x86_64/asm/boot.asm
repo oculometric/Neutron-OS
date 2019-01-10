@@ -4,6 +4,8 @@ bits 32
 global start
 global errorOccurred
 extern longModeStart
+extern populateGDT
+extern populateIDT
 
 start:
 	mov esp, stack_top							; Prepare the stack
@@ -14,12 +16,14 @@ start:
 	call checkCpuid									; Make sure the CPU supports CPUID
 	call checkLongMode							; Check that long more is available
 
-	call preparePageTables					; Set up paging
-	call enablePaging
+	;call preparePageTables					; Set up paging
+	;call enablePaging
 
-	lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
-	call EnableA20
+	;lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
+	;call EnableA20
 	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
+   call populateGDT
+   call populateIDT
 
 	jmp gdt64.code:longModeStart		; Perform the long-awaited far jump to the start of long mode code
 
@@ -138,15 +142,3 @@ p2_table:
 stack_bottom:
 	resb 4096 * 4
 stack_top:
-
-global gdt64.pointer
-section .rodata
-gdt64:					; 64-bit GDT for long mode
-	dq 0					; Zero entry
-.code: equ $ - gdt64
-	dq (1<<43) | (1<<44) | (1<<47) | (1<<53) ; Defines a number with bits 43, 44, 47, 53 set to 1
-.data: equ $ - gdt64
-	dq (1<<44) | (1<<47) | (1<<41) ; Defines a number with bits 44, 47, 41 set to 1
-.pointer:
-	dw $ - gdt64 - 1
-	dq gdt64

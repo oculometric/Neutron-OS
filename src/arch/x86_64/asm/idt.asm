@@ -9,7 +9,6 @@
 ;	ret
 bits 64
 extern isrHandler
-global isr1
 
 global idtFlush
 idtFlush:
@@ -24,7 +23,7 @@ idtFlush:
     cli
     push byte 0
     push byte %1
-    jmp isr_common_stub
+    call isr_common_stub
 %endmacro
 
 %macro ISR_ERRCODE 1
@@ -32,7 +31,7 @@ idtFlush:
   isr%1:
     cli
     push byte %1
-    jmp isr_common_stub
+    call isr_common_stub
 %endmacro
 
 ISR_NOERRCODE 0
@@ -43,4 +42,4 @@ ISR_NOERRCODE 31
 isr_common_stub:
 	call isrHandler
 	sti
-	iret
+	iretq

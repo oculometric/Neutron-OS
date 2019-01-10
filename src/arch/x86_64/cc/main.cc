@@ -53,8 +53,7 @@ void testTerminal () {
 	logLn ("Done.");
 }
 
-extern "C" void kernel_main (uint8_t codeSelector) {
-	logHex ((long)codeSelector);
+extern "C" void kernel_main (int gdtPointer) {
 	init_serial();
 	logLn ("Welcome to the Neutron-OS kernel. This is a debug log.");
 
@@ -71,11 +70,14 @@ extern "C" void kernel_main (uint8_t codeSelector) {
 	logLn ("Done.");
 
 	log ("Initialising IDT...             ");
-	initIDT(codeSelector);
+	initIDT(gdtPointer);
 	logLn ("Done.");
+	// int i;
+	// asm ("mov %0, %%cs"
+	// 			: "=r" (i));
+	logInt (gdtPointer);
 	log ("Running interrupt test...       ");
 	asm (R"(
-		sti
 		int $0x01
 	)");
 	logLn ("Success!");

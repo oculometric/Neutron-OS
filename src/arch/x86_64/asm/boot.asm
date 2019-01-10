@@ -124,7 +124,7 @@ EnableA20:
 	jnz .skip            ; if a20 bit seems set, don't touch it
 	or al, 2
 	out 0x92, al
-	.skip:
+.skip:
 	ret
 
 section .bss
@@ -139,7 +139,7 @@ stack_bottom:
 	resb 4096 * 4
 stack_top:
 
-global gdt64.code
+global gdt64.pointer
 section .rodata
 gdt64:					; 64-bit GDT for long mode
 	dq 0					; Zero entry

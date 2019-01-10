@@ -33,7 +33,7 @@ debug: $(iso)
 	@echo "Starting debug"
 	@echo "GDB needs 'target remote localhost:1234'"
 	@touch $(logfile)
-	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G -s -S
+	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G -s -S -d int
 
 iso: $(iso)
 

@@ -1,6 +1,6 @@
 global longModeStart
 extern kernel_main
-extern gdt64.code
+extern gdt64.pointer
 
 section .text
 bits 64
@@ -14,8 +14,8 @@ longModeStart:
 
 	mov rax, 0x2F592F412F4B2F4F			; A quadword meaning 'OKAY'
 	mov qword [0xB8000], rax
-	push gdt64.code
 	call kernel_main								; Call the higher C++ kernel
+
 	mov word [0xB8000], 0x2F44
 	mov word [0xB8002], 0x2F4F
 	mov word [0xB8004], 0x2F4E

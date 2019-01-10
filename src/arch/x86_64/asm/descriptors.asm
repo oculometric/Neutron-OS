@@ -18,9 +18,15 @@
 #define FLAGS_DATA_32 (FLAG_DATA | FLAGS_COMMON_32)
 #define FLAG_L          (1 << 13) // 1 for 64-bit
 #define FLAGS_CODE_64 (FLAG_USER | FLAG_R0 | FLAG_P | FLAG_L | FLAG_4k | FLAG_CODE)
+#define FLAG_INTERRUPT  0xe
+#define FLAG_R0     (0 << 5)    // Rings 0 - 3
+#define FLAG_P      (1 << 7)
+ 
+#define IDT_ENTRIES     256
 
 /* 1 = FLAGS, 2 = BASE, 3 = LIMIT */
- 
+section .text
+
 %macro GDTENTRY 3
     dw  ((%3) & 0xFFFF)
     dw  ((%2) & 0xFFFF)
@@ -28,6 +34,13 @@
     dw  ((%1) | (((%3) & 0xF0000) >> 8))
     db  (((%2) & 0xFF000000) >> 24)
 %endmacro
+
+global populateGDT
+populateGDT:
+    lgdt[GDTR]
+    ret
+
+section .rodata
 
 align 8
 GDT:
@@ -43,3 +56,8 @@ DATA_SEL EQU $-GDT
 CODE_SEL_64 EQU $-GDT
     GDTENTRY    FLAGS_CODE_64, 0x0, 0xFFFFF
 GDTEND:
+
+align 8
+GDTR:
+dw (GDTEND - GDT - 1)
+dq GDT

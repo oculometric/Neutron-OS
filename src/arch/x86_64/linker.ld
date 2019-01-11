@@ -1,16 +1,16 @@
 ENTRY (start)
 
 SECTIONS {
-	kernel_start = 0x80100000;
+	kernel_start = . ;
 	.boot 0x100000 :
 	{
 		*(.multiboot_header)
 	}
-	.early 0x80100080 :
+	.early (kernel_start + 0x80) :
 	{
 		*(.early)
 	}
-	.text 0x80102000 : AT(0x80102000)
+	.text (kernel_start + 0x2000) :
 	{
 		*(.text)
 	}

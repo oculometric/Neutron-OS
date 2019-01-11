@@ -9,35 +9,35 @@ extern longModeStart
 extern populateGDT
 extern populateIDT
 
-extern CODE_SEL_64
-extern DATA_SEL
-extern CODE_SEL_32
+extern GDTR
+extern GDTdata
+extern GDTcode64
+extern GDT
 
 start:
 	cli
 	mov esp, stack_top							; Prepare the stack
-	mov edi, ebx										; Move multiboot information pointer into ebx
+	mov edi, GDTcode64										; Move multiboot information pointer into ebx
 	push eax
 	push ebx
 	call checkMultiboot							; Check that we were loaded as multiboot
 	call checkCpuid									; Make sure the CPU supports CPUID
 	call checkLongMode							; Check that long more is available
-	;;call preparePageTables					; Set up paging
-	;call enablePaging
+	call preparePageTables					; Set up paging
+	call enablePaging
 
 	;lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
 	;call EnableA20
 	call populateGDT
-	mov eax, DATA_SEL
+	mov eax, GDTdata
 	mov ds, eax
 	mov es, eax
 	mov fs, eax
 	mov gs, eax
 	mov ss, eax
 
-	jmp CODE_SEL_32:hostGDT
 	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
-	jmp CODE_SEL_64:longModeStart		; Perform the long-awaited far jump to the start of long mode code
+	jmp GDTcode64:longModeStart		; Perform the long-awaited far jump to the start of long mode code
 
 hostGDT:
 	call populateIDT

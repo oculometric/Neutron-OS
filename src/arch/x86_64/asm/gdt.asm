@@ -37,22 +37,19 @@ populateGDT:
     lgdt[GDTR]
     ret
 
-global CODE_SEL_64
-global DATA_SEL
-global CODE_SEL_32
+global GDT
+global GDTcode64
+global GDTdata
+global GDTR
 
 align 8
-GDT:
-    GDTENTRY    0, 0x0, 0x0			; NULL descriptor
-CODE_SEL_32 EQU $-GDTR					; Code descriptor (Compat)
-    GDTENTRY    FLAGS_CODE_32, 0x0, 0xFFFFFFF
-DATA_SEL EQU $-GDT							; Data descriptor (Compat)
-    GDTENTRY    FLAGS_DATA_32, 0x0, 0xFFFFFFF
-CODE_SEL_64 EQU $-GDT						; Code descriptor (Long)
-    GDTENTRY    FLAGS_CODE_64, 0x0, 0xFFFFFFF
-GDTEND:
-
-align 8
+section .rodata
+GDT:																				; 64-bit GDT for long mode
+	dq 0																			; Zero entry
+GDTcode64: equ $ - GDT
+	dq (1<<43) | (1<<44) | (1<<47) | (1<<53)	; Defines a number with bits 43, 44, 47, 53 set to 1
+GDTdata: equ $ - GDT
+	dq (1<<44) | (1<<47) | (1<<41)						; Defines a number with bits 44, 47, 41 set to 1
 GDTR:
-	dw (GDTEND - GDT - 1)
+	dw $ - GDT - 1
 	dq GDT

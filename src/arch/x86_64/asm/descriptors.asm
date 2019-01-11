@@ -60,6 +60,10 @@ populateGDT:
     lgdt[GDTR]
     ret
 
+global populateIDT
+populateIDT:
+    ; TODO:
+
 global CODE_SEL_64
 global DATA_SEL
 global CODE_SEL_32

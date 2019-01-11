@@ -3,13 +3,20 @@ bits 32
 
 global start
 global errorOccurred
+
 extern longModeStart
+
 extern populateGDT
 extern populateIDT
 
+extern CODE_SEL_64
+extern DATA_SEL
+extern CODE_SEL_32
+
 start:
+	cli
 	mov esp, stack_top							; Prepare the stack
-	;mov edi, ebx										; Move multiboot information pointer into ebx
+	mov edi, ebx										; Move multiboot information pointer into ebx
 	push eax
 	push ebx
 	call checkMultiboot							; Check that we were loaded as multiboot
@@ -21,11 +28,22 @@ start:
 
 	;lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
 	;call EnableA20
-	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
-   call populateGDT
-   call populateIDT
+	call populateGDT
+	mov eax, DATA_SEL
+	mov ds, eax
+	mov es, eax
+	mov fs, eax
+	mov gs, eax
+	mov ss, eax
 
-	jmp gdt64.code:longModeStart		; Perform the long-awaited far jump to the start of long mode code
+
+	jmp CODE_SEL_32:hostIDT
+	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
+	jmp CODE_SEL_64:longModeStart		; Perform the long-awaited far jump to the start of long mode code
+
+hostIDT:
+	call populateIDT
+	jmp $
 
 errorOccurred:										; Declares that an error has occurred. Provide error code in al register
 	mov dword[0xB8000], 0x4F524F45	; Colour 0x4F is used for all letters

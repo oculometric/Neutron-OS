@@ -69,9 +69,9 @@ extern "C" void kernel_main (int gdtPointer) {
 	t->resetTerminal();
 	logLn ("Done.");
 
-	log ("Initialising IDT...             ");
-	initIDT(gdtPointer);
-	logLn ("Done.");
+	// log ("Initialising IDT...             ");
+	// initIDT(gdtPointer);
+	// logLn ("Done.");
 	// int i;
 	// asm ("mov %0, %%cs"
 	// 			: "=r" (i));

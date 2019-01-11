@@ -1,22 +1,27 @@
 ENTRY (start)
 
 SECTIONS {
-	. = 1M;
-	.boot :
+	kernel_start = 0x80100000;
+	.boot 0x100000 :
 	{
-		KEEP (*(.multiboot_header))
+		*(.multiboot_header)
 	}
-
-	.text :
+	.early 0x80100080 :
 	{
-		*(.text .text.*)
+		*(.early)
 	}
-
-	.rodata : {
-		*(.rodata .rodata.*)
+	.text 0x80102000 : AT(0x80102000)
+	{
+		*(.text)
 	}
-
-	.data.rel.ro : {
-	*(.data.rel.ro.local*) *(.data.rel.ro .data.rel.ro.*)
+	.data :
+	{
+		*(.data)
 	}
+	.bss :
+	{
+		*(.bss)
+	}
+	kernel_end = . ;
+	kernel_size = kernel_end - kernel_start;
 }

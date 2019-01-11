@@ -1,4 +1,4 @@
-section .text
+section .early
 bits 32
 
 %define FLAG_CODE   0xa ; Read/Execute
@@ -23,22 +23,6 @@ bits 32
 %define FLAGS_CODE_64 (FLAG_USER | FLAG_R0 | FLAG_P | FLAG_L | FLAG_4k | FLAG_CODE)
 %define FLAG_INTERRUPT  0xe
 
-%define IDT_ENTRIES     256
-
-%macro ISR 1
-isr%1:
-    jmp $
-%endmacro
-
-makeISRs:
-	%assign i 0
-	%rep IDT_ENTRIES
-	ISR i
-	%assign i (i+1)
-	%endrep
-
-%define ISR_SIZE (isr1 - isr0)
-
 ; 1 = FLAGS, 2 = BASE, 3 = LIMIT
 %macro GDTENTRY 3
     dw  ((%3) & 0xFFFF)
@@ -48,26 +32,14 @@ makeISRs:
     db  (((%2) & 0xFF000000) >> 24)
 %endmacro
 
-%macro IDTENTRY 0
-    DD 0xabcdefab
-    DD 0xabcdefab
-    DD 0xabcdefab
-    DD 0xabcdefab
-%endmacro
-
 global populateGDT
 populateGDT:
     lgdt[GDTR]
     ret
 
-global populateIDT
-populateIDT:
-    ; TODO:
-
 global CODE_SEL_64
 global DATA_SEL
 global CODE_SEL_32
-section .rodata
 
 align 8
 GDT:
@@ -84,18 +56,3 @@ align 8
 GDTR:
 	dw (GDTEND - GDT - 1)
 	dq GDT
-
-align 8
-IDT:
-	%assign i 0
-	%rep IDT_ENTRIES
-	IDTENTRY
-	%assign i (i+1)
-	%endrep
-IDTEND:
-
-
-align 8
-IDTR:
-	DW (IDTEND - IDT - 1)
-	DQ IDT

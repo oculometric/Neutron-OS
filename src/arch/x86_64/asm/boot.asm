@@ -1,4 +1,4 @@
-section .text
+section .early
 bits 32
 
 global start
@@ -22,8 +22,7 @@ start:
 	call checkMultiboot							; Check that we were loaded as multiboot
 	call checkCpuid									; Make sure the CPU supports CPUID
 	call checkLongMode							; Check that long more is available
-
-	;call preparePageTables					; Set up paging
+	;;call preparePageTables					; Set up paging
 	;call enablePaging
 
 	;lgdt [gdt64.pointer]						; Load the 64-bit long mode GDT
@@ -36,12 +35,11 @@ start:
 	mov gs, eax
 	mov ss, eax
 
-
-	jmp CODE_SEL_32:hostIDT
+	jmp CODE_SEL_32:hostGDT
 	mov dword [0xB8000], 0x2F4B2F4F	; Declare that we are 'OK'
 	jmp CODE_SEL_64:longModeStart		; Perform the long-awaited far jump to the start of long mode code
 
-hostIDT:
+hostGDT:
 	call populateIDT
 	jmp $
 

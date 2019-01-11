@@ -1,45 +1,47 @@
-; ;global load_idt
-;
-; ;idt:
-; ;	dw 2048
-; ;	dd 0x0
-;
-; ;load_idt:
-; ;	lidt [idt]
-; ;	ret
-; bits 64
-; extern isrHandler
-;
-; global idtFlush
-; idtFlush:
-; 	cli
-; 	mov eax, [esp+4]
-; 	lidt [eax]
-; 	ret
-;
-; %macro ISR_NOERRCODE 1
-;   global isr%1
-;   isr%1:
-;     cli
-;     push byte 0
-;     push byte %1
-;     call isr_common_stub
-; %endmacro
-;
-; %macro ISR_ERRCODE 1
-;   global isr%1
-;   isr%1:
-;     cli
-;     push byte %1
-;     call isr_common_stub
-; %endmacro
-;
-; ISR_NOERRCODE 0
-; ISR_NOERRCODE 1
-; ISR_NOERRCODE 8
-; ISR_NOERRCODE 31
-;
-; isr_common_stub:
-; 	call isrHandler
-; 	sti
-; 	iretq
+section .early
+bits 32
+
+%define IDT_ENTRIES     256
+
+%macro ISR 1
+isr%1:
+    jmp $
+%endmacro
+
+makeISRs:
+	%assign i 0
+	%rep IDT_ENTRIES
+	ISR i
+	%assign i (i+1)
+	%endrep
+
+%define ISR_SIZE (isr1 - isr0)
+
+%macro IDTENTRY 0
+    DD 0xabcdefab
+    DD 0xabcdefab
+    DD 0xabcdefab
+    DD 0xabcdefab
+%endmacro
+
+global populateIDT
+populateIDT:
+    ; TODO:
+
+global IDT
+global IDTR
+
+align 8
+IDT:
+	%assign i 0
+	%rep IDT_ENTRIES
+	IDTENTRY
+	%assign i (i+1)
+	%endrep
+IDTEND:
+
+
+align 8
+IDTR:
+	DW (IDTEND - IDT - 1)
+	DQ IDT

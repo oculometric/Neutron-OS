@@ -1,5 +1,6 @@
 #define PORT 0x3F8 /* COM1 */
 #include "string.h"
+#include <stdint.h>
 uint8_t inb(uint16_t port);
 void outb(unsigned short port, unsigned char val);
 

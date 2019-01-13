@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 void memset(char *dest, char src, int len);
 
 void memcpy(char *dest, char *src, int length);

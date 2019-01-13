@@ -8,6 +8,8 @@
 #include "terminal.h"
 #include "util.h"
 #include "interrupts.h"
+#include "mouse.h"
+#include "textgui.h"
 
 const char *stringg = "Hello, World! Num is: ";
 
@@ -57,34 +59,30 @@ extern "C" void kernel_main (int gdtPointer) {
 	init_serial();
 	logLn ("Welcome to the Neutron-OS kernel. This is a debug log.");
 
+	log ("GDT Code Segment is declared as ");
+	logInt (gdtPointer);
+
 	log ("Preparing memory...             ");
 	prepMemory();
 	logLn ("Done.");
 
-	log ("Initialising terminal object... ");
-	Terminal *t = new Terminal();
+	logLn ("Initialising CLIGUI object... ");
+	CLIGUI *cg = new CLIGUI;
+	cg->setup();
 	logLn ("Done.");
 
-	log ("Clearing terminal...            ");
-	t->resetTerminal();
-	logLn ("Done.");
+	logLn ("Transferring to console GUI control.");
+	cg->main();
 
 	// log ("Initialising IDT...             ");
 	// initIDT(gdtPointer);
 	// logLn ("Done.");
-	// int i;
-	// asm ("mov %0, %%cs"
-	// 			: "=r" (i));
-	logInt (gdtPointer);
-	log ("Running interrupt test...       ");
-	asm (R"(
-		int $0x01
-	)");
-	logLn ("Success!");
-	//setupPICs();
-	//setScanCodeSet(3);
-	while (true);
-	//setScanCodeSet (3);
+
+	// log ("Running interrupt test...       ");
+	// asm (R"(
+	// 	int $0x01
+	// )");
+	//logLn ("Success!");
 
 
 	logLn ("Halting.");

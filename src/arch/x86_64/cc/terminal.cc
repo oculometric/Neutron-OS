@@ -40,6 +40,17 @@ void Terminal::moveToNextLine () {
   updateCursorLocation();
 }
 
+void Terminal::setStyleFlag (int col, int row, char flag) {
+	int place = (VGA_WIDTH * row) + col;
+	char c = videoMemStart[place];
+	videoMemStart[place] = makeVGA(flag, c);
+}
+
+char Terminal::getStyleFlag (int col, int row) {
+	int place = (VGA_WIDTH * row) + col;
+	return (videoMemStart[place] >> 8);
+}
+
 void Terminal::appendChar (char c) {
   if (c == '\n') {
     moveToNextLine ();
@@ -51,7 +62,7 @@ void Terminal::appendChar (char c) {
 		int place = (VGA_WIDTH * terminal_row) + terminal_column;
     videoMemStart[place] = makeVGA(activeStyleFlag, c);
     terminal_column++;
-    if (terminal_column > VGA_WIDTH) {
+    if (terminal_column >= VGA_WIDTH) {
       moveToNextLine();
     }
   }
@@ -91,6 +102,10 @@ void Terminal::setActiveStyleFlag (char flag) {
   activeStyleFlag = flag;
 }
 
+char Terminal::getActiveStyleFlag () {
+	return activeStyleFlag;
+}
+
 void Terminal::deleteLines (int num) {
 	unsigned short c = makeVGA(0x00, ' ');
   while (num-- && terminal_row--) {
@@ -114,4 +129,26 @@ void Terminal::resetTerminal () {
 	terminal_column = 0;
 	terminal_row = 0;
 	updateCursorLocation();
+}
+
+void Terminal::setChars (int colStart, int rowStart, char *c, char flag) {
+	int tCol = terminal_column;
+	int tRow = terminal_row;
+	char tStyle = activeStyleFlag;
+
+	terminal_column = colStart;
+	terminal_row = rowStart;
+	activeStyleFlag = flag;
+	int i = 0;
+	while (terminal_column < VGA_WIDTH && c[i] != '\0') {
+		if (c[i] != '\n' && c[i] != '\b' && c[i] != '\t') {
+			int place = (VGA_WIDTH * terminal_row) + terminal_column;
+			videoMemStart[place] = makeVGA(activeStyleFlag, c[i]);
+			terminal_column++;
+		}
+		i++;
+	}
+	terminal_column = tCol;
+	terminal_row = tRow;
+	activeStyleFlag = tStyle;
 }

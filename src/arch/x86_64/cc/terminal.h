@@ -1,5 +1,9 @@
 #include "string.h"
+#include <stddef.h>
+#include <stdint.h>
 
+#ifndef TERMINAL
+#define TERMINAL
 enum vga_color {
   COLOR_BLACK = 0,
   COLOR_BLUE = 1,
@@ -32,6 +36,15 @@ public:
   uint8_t make_color(enum vga_color fg, enum vga_color bg);
   void resetTerminal ();
 	unsigned short makeVGA (unsigned short col, char c);
+	void setStyleFlag (int col, int row, char flag);
+	char getActiveStyleFlag ();
+	char getStyleFlag (int col, int row);
+
+	void setChar (int col, int row, char c, char flag);
+	void setChars (int colStart, int rowStart, char *c, char flag);
+
+	static const size_t VGA_WIDTH = 80;
+	static const size_t VGA_HEIGHT = 25;
 private:
   void appendChar (char c);
   void moveToNextLine ();
@@ -39,8 +52,8 @@ private:
   char activeStyleFlag = 0x07;
   int terminal_row = 0;
 	int terminal_column = 0;
-  static const size_t VGA_WIDTH = 80;
-	static const size_t VGA_HEIGHT = 25;
+
 
   void updateCursorLocation ();
 };
+#endif

@@ -28,6 +28,7 @@ run: $(iso)
 	@echo "Starting"
 	@touch $(logfile)
 	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G
+	@#@qemu-system-x86_64 -cdrom $(iso) -serial stdio -no-reboot -m 8G
 
 debug: $(iso)
 	@echo "Starting debug"

@@ -7,7 +7,7 @@ grub_cfg := src/arch/$(arch)/grub.cfg
 assembly_source_files := $(wildcard src/arch/$(arch)/asm/*.asm)
 assembly_object_files := $(patsubst src/arch/$(arch)/asm/%.asm, build/arch/$(arch)/%.o, $(assembly_source_files))
 
-cpp_source_files := $(wildcard src/arch/$(arch)/cc/*.cc)
+cpp_source_files := $(wildcard src/arch/$(arch)/cc/*.cc src/arch/$(arch)/cc/*/*.cc)
 cpp_object_files := $(patsubst src/arch/$(arch)/cc/%.cc, build/arch/$(arch)/%.o, $(cpp_source_files))
 date    :=          `date +'%d.%m.%y_%H-%M-%S'`.log
 logfile :=          log/serial/Serial-$(date)

@@ -3,8 +3,8 @@
 #include <stdbool.h>
 
 #include "terminal.h"
-#include "log.h"
-#include "string.h"
+#include "../log.h"
+#include "../string.h"
 
 // ALL OF THESE FUNCTIONS REQUIRE THE SYSTEM TO BE IN VGA GRAPHICS MODE 0x3H
 

@@ -1,6 +1,6 @@
 #include "textgui.h"
-#include "log.h"
-#include "memory.h"
+#include "../log.h"
+#include "../memory.h"
 
 void CLIGUI::handleMouseUp (int button) {
 	for (int i = 0; i < numButtons; i++) {

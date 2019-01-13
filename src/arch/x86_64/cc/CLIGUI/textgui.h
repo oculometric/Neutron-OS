@@ -1,5 +1,5 @@
 #include "terminal.h"
-#include "mouse.h"
+#include "../mouse.h"
 
 #ifndef CLIGUIDEF
 #define CLIGUIDEF

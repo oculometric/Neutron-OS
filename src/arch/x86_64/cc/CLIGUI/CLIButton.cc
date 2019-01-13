@@ -1,5 +1,5 @@
 #include "textgui.h"
-#include "log.h"
+#include "../log.h"
 
 CLIButton::CLIButton (char *c, int xx, int yy, CLIGUI *cc) {
 	x = xx;

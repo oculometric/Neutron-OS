@@ -1,5 +1,5 @@
 #include "textgui.h"
-#include "log.h"
+#include "../log.h"
 
 CLILabel::CLILabel (char *c, int xx, int yy) {
 	x = xx;

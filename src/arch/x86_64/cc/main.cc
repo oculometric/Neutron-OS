@@ -5,11 +5,11 @@
 #include "log.h"
 #include "multiboot.h"
 #include "memory.h"
-#include "terminal.h"
+#include "CLIGUI/terminal.h"
 #include "util.h"
 #include "interrupts.h"
 #include "mouse.h"
-#include "textgui.h"
+#include "CLIGUI/textgui.h"
 
 const char *stringg = "Hello, World! Num is: ";
 

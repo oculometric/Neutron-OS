@@ -16,7 +16,7 @@ Strikethrough indicates it has been completed. Currently my main concern is with
 * Userspace, functional 'applications'
 
 ## Releases and Building
-Live debug releases are available in the ```build/``` directory. Working versions are released whenever I've made a significant move forward: see the [releases page][0].
+Live debug releases are available in the ```build/``` directory. Working versions are released whenever I've made a significant move forward: see the [releases page](https://github.com/JkyProgrammer/Neutron-OS/releases).
 
 If you want to build for yourself, use the Makefile.
 * ```make all``` will simply build the 'kernel-x86_64.bin' file from the source.
@@ -29,5 +29,3 @@ If you want to build for yourself, use the Makefile.
 ## Contributions
 Based partly on its predecessor OtterOS, which was contributed to by **DaBatchMan**.
 Copyright **JkyProgrammer** 2018-2019
-
-[0][https://github.com/JkyProgrammer/Neutron-OS/releases]

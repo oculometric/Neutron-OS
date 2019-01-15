@@ -42,6 +42,7 @@ public:
 
 	void setChar (int col, int row, char c, char flag);
 	void setChars (int colStart, int rowStart, char *c, char flag);
+	void setChars (int colStart, int rowStart, char *c, char flag, int length);
 
 	static const size_t VGA_WIDTH = 80;
 	static const size_t VGA_HEIGHT = 25;

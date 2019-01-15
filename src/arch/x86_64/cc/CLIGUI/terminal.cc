@@ -165,3 +165,28 @@ void Terminal::setChars (int colStart, int rowStart, char *c, char flag) {
 	terminal_row = tRow;
 	activeStyleFlag = tStyle;
 }
+
+void Terminal::setChars (int colStart, int rowStart, char *c, char flag, int length) {
+	int tCol = terminal_column;
+	int tRow = terminal_row;
+	char tStyle = activeStyleFlag;
+
+	terminal_column = colStart;
+	terminal_row = rowStart;
+	activeStyleFlag = flag;
+	int i = 0;
+	while (terminal_column < VGA_WIDTH && i < length) {
+		if (c[i] == '\n') {
+			terminal_row++;
+			terminal_column = colStart;
+		} else if (c[i] != '\b' && c[i] != '\t') {
+			int place = (VGA_WIDTH * terminal_row) + terminal_column;
+			videoMemStart[place] = makeVGA(activeStyleFlag, c[i]);
+			terminal_column++;
+		}
+		i++;
+	}
+	terminal_column = tCol;
+	terminal_row = tRow;
+	activeStyleFlag = tStyle;
+}

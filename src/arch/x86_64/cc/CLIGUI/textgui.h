@@ -78,5 +78,6 @@ private:
 	void continueClicked ();
 	void quitClicked ();
 	void prepareMenu ();
+	void showInformation ();
 };
 #endif

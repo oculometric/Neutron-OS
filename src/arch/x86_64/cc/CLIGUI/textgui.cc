@@ -11,21 +11,84 @@ void CLIGUI::prepareMenu() {
 
 	logLn ("Making GUI");
 
-	string *line1 = new string (80);
-	char *d = line1->getData();
+	char *d = new char[80];
 	for (int c = 0; c < 80; c++) {
 		d[c] = ' ';
-		if (c == 0 || c == 79 || c == 15) {
+		if (c == 0 || c == 79 || c == 17) {
 			d[c] = '|';
 		}
 	}
 
 	for (int r = 0; r < Terminal::VGA_HEIGHT; r++) {
-		t->setChars(0, r, line1->getData(), t->make_color(COLOR_WHITE, COLOR_BLACK));
+		t->setChars(0, r, d, t->make_color(COLOR_WHITE, COLOR_BLACK));
 	}
 	currentlyOverlyedStyleFlag = t->make_color(COLOR_WHITE, COLOR_BLACK);
 
+	CLIButton *informationBut = new CLIButton ("Information    >", 1, 0, this);
+	CLIButton *toolsBut =       new CLIButton ("Tools          >", 1, 1, this);
+	CLIButton *filesystemBut =  new CLIButton ("Filesystem     >", 1, 2, this);
+	CLIButton *shutdownBut =    new CLIButton ("Shutdown       >", 1, 3, this);
 
+	informationBut->setFunction(&CLIGUI::showInformation);
+	addButton(informationBut);
+	addButton(toolsBut);
+	addButton(filesystemBut);
+	addButton(shutdownBut);
+
+	CLILabel *lineA =            new CLILabel ("----------------", 1, 4);
+	CLILabel *lineB =            new CLILabel ("Recent Files    ", 1, 5);
+	CLILabel *lineC =            new CLILabel ("----------------", 1, 6);
+
+	addLabel(lineA);
+	addLabel(lineB);
+	addLabel(lineC);
+}
+
+void CLIGUI::showInformation () {
+	int firstCol = 18;
+	char *information = R"(
+		======== Neutron OS ========
+
+		Neutron OS is a toy operating system created by Jake Costen (aka JkyProgrammer).
+		See below for a usage manual. The menu (on the left) contains several items:
+		* Information - displays this info page.
+		* Tools - TODO (will show a collection of built-in tools).
+		* Filesystem - TODO (will show a filesystem explorer, when there is a filesystem).
+		* Shutdown - unsurprisingly, shuts the system down.
+
+		Help also TODO
+
+		Copyright (C) JkyProgrammer 2019
+	)";
+
+	char *link = information;
+	int len = strlen (information);
+	// while (*link != '\0') {
+	// 	int leng = 79-firstCol;
+	// 	while (*(link+len) == '\0') {
+	// 		len--;
+	// 	}
+	// 	t->setChars(firstCol, 0, link, , len);
+	// 	link += len;
+	// }
+	char sf = t->make_color(COLOR_WHITE, COLOR_BLACK);
+
+	int i = 0;
+	int terminal_row = 0;
+	int terminal_column = firstCol;
+	unsigned short *videoMemStart = (unsigned short *)0xB8000;
+	while (i < len) {
+		if (link[i] == '\n' || terminal_column >= Terminal::VGA_WIDTH-1) {
+			terminal_row++;
+			terminal_column = firstCol;
+			if (link[i] != '\n') i--;
+		} else if (link[i] != '\b' && link[i] != '\t') {
+			int place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
+			videoMemStart[place] = t->makeVGA(sf, link[i]);
+			terminal_column++;
+		}
+		i++;
+	}
 }
 
 void CLIGUI::handleMouseUp (int button) {
@@ -70,13 +133,11 @@ void CLIGUI::quitClicked () {
 
 void CLIGUI::setup () {
 	logLn ("Initialising required things...      ");
-	setEnableStreaming(true);
-	setResolution(0x00); // 1 count per mm
-	setScaling(false);   // Linear scaling
+	initMouse();
 	p = new MousePacket;
 	t = new Terminal ();
 	t->disableTextCursor();
-	buttons = (CLIButton **)calloc(sizeof(CLIButton*) * 10); // Space for ten button pointers
+	buttons = (CLIButton **)calloc(sizeof(CLIButton*) * 30); // Space for 30 button pointers
 	numButtons = 0;
 	logLn ("Done.");
 

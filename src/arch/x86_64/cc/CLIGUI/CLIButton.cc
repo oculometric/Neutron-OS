@@ -11,13 +11,15 @@ CLIButton::CLIButton (char *c, int xx, int yy, CLIGUI *cc) {
 	text = c;
 
 	container = cc;
+	function = (void (*)())0x0;
+
 	return;
 }
 
 void CLIButton::callFunction () {
 	if (isInstanceFunc) {
 		((*container).*memFunction)();
-	} else function();
+	} else if (function != 0x0) function();
 }
 void CLIButton::setFunction (void (*f)(void)) {
 	function = f;

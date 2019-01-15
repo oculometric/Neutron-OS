@@ -1,8 +1,18 @@
 #include "mouse.h"
 #include "log.h"
 
+void initMouse () {
+	setEnableStreaming(true);
+	setResolution(0x00); // 1 count per mm
+	setScaling(false);   // Linear scaling
+}
+
 bool isPacketAvailable () {
 	uint8_t i = inb(MOUSE_COMMAND);
+	if (i == 0xAA) {
+		initMouse();
+		return false;
+	}
 	if (!(i & 1)) return false;
 	if (i & (1 << 5)) return true;
 	return false;

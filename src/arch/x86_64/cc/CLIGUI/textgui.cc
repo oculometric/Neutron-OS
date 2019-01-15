@@ -15,7 +15,7 @@ void CLIGUI::prepareMenu() {
 	char *d = line1->getData();
 	for (int c = 0; c < 80; c++) {
 		d[c] = ' ';
-		if (c == 0 || c == 79) {
+		if (c == 0 || c == 79 || c == 15) {
 			d[c] = '|';
 		}
 	}
@@ -75,7 +75,7 @@ void CLIGUI::setup () {
 	setScaling(false);   // Linear scaling
 	p = new MousePacket;
 	t = new Terminal ();
-
+	t->disableTextCursor();
 	buttons = (CLIButton **)calloc(sizeof(CLIButton*) * 10); // Space for ten button pointers
 	numButtons = 0;
 	logLn ("Done.");

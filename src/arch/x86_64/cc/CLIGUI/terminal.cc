@@ -19,13 +19,26 @@ unsigned short Terminal::makeVGA (unsigned short col, char c) {
 
 // Move the cursor to the end of the text
 void Terminal::updateCursorLocation() {
-  unsigned short cursorLoc = ((terminal_row * VGA_WIDTH) + terminal_column);
-  // cursor LOW port to vga INDEX register
-  outb(0x3D4, 0x0F);
-  outb(0x3D5, (unsigned char)(cursorLoc));
-  // cursor HIGH port to vga INDEX register
-  outb(0x3D4, 0x0E);
-  outb(0x3D5, (unsigned char)((cursorLoc >> 8)));
+	if (cursorEnabled) {
+  	unsigned short cursorLoc = ((terminal_row * VGA_WIDTH) + terminal_column);
+  	// cursor LOW port to vga INDEX register
+  	outb(0x3D4, 0x0F);
+  	outb(0x3D5, (unsigned char)(cursorLoc));
+  	// cursor HIGH port to vga INDEX register
+  	outb(0x3D4, 0x0E);
+  	outb(0x3D5, (unsigned char)((cursorLoc >> 8)));
+	}
+}
+
+void Terminal::enableTextCursor() {
+	cursorEnabled = true;
+	updateCursorLocation();
+}
+
+void Terminal::disableTextCursor() {
+	cursorEnabled = false;
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, 0x20);
 }
 
 void Terminal::moveToNextLine () {

@@ -2,6 +2,32 @@
 #include "../log.h"
 #include "../memory.h"
 
+void CLIGUI::prepareMenu() {
+	for (int i = 0; i < numButtons; i++) {
+		delete buttons[i];
+	}
+
+	numButtons = 0;
+
+	logLn ("Making GUI");
+
+	string *line1 = new string (80);
+	char *d = line1->getData();
+	for (int c = 0; c < 80; c++) {
+		d[c] = ' ';
+		if (c == 0 || c == 79) {
+			d[c] = '|';
+		}
+	}
+
+	for (int r = 0; r < Terminal::VGA_HEIGHT; r++) {
+		t->setChars(0, r, line1->getData(), t->make_color(COLOR_WHITE, COLOR_BLACK));
+	}
+	currentlyOverlyedStyleFlag = t->make_color(COLOR_WHITE, COLOR_BLACK);
+
+
+}
+
 void CLIGUI::handleMouseUp (int button) {
 	for (int i = 0; i < numButtons; i++) {
 		CLIButton *b = buttons[i];
@@ -33,6 +59,7 @@ void CLIGUI::addLabel (CLILabel *l) {
 
 void CLIGUI::continueClicked () {
 	logLn ("We're going on!");
+	prepareMenu();
 }
 
 void CLIGUI::quitClicked () {
@@ -48,6 +75,7 @@ void CLIGUI::setup () {
 	setScaling(false);   // Linear scaling
 	p = new MousePacket;
 	t = new Terminal ();
+
 	buttons = (CLIButton **)calloc(sizeof(CLIButton*) * 10); // Space for ten button pointers
 	numButtons = 0;
 	logLn ("Done.");
@@ -89,7 +117,7 @@ void CLIGUI::tidyup() {
 	for (int i = 0; i < numButtons; i++) {
 		delete buttons[i];
 	}
-	delete buttons;
+	delete [] buttons;
 	return;
 }
 

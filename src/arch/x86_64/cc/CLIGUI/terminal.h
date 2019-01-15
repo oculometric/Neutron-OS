@@ -45,6 +45,10 @@ public:
 
 	static const size_t VGA_WIDTH = 80;
 	static const size_t VGA_HEIGHT = 25;
+
+	void enableTextCursor ();
+	void disableTextCursor ();
+
 private:
   void appendChar (char c);
   void moveToNextLine ();
@@ -52,7 +56,7 @@ private:
   char activeStyleFlag = 0x07;
   int terminal_row = 0;
 	int terminal_column = 0;
-
+	bool cursorEnabled = true;
 
   void updateCursorLocation ();
 };

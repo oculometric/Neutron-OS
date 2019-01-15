@@ -77,5 +77,6 @@ private:
 	// NON-CORE
 	void continueClicked ();
 	void quitClicked ();
+	void prepareMenu ();
 };
 #endif

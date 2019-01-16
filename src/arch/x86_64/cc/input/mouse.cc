@@ -1,5 +1,5 @@
 #include "mouse.h"
-#include "log.h"
+#include "../log.h"
 
 void initMouse () {
 	setEnableStreaming(true);

@@ -85,7 +85,7 @@ void CLIGUI::showInformation () {
 		if (link[i] == '\n' || terminal_column >= Terminal::VGA_WIDTH-1) {
 			terminal_row++;
 			terminal_column = firstCol;
-			int place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
+			place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
 			if (link[i] != '\n') i--;
 		} else if (link[i] != '\b' && link[i] != '\t') {
 			videoMemStart[place] = t->makeVGA(sf, link[i]);
@@ -94,18 +94,17 @@ void CLIGUI::showInformation () {
 		}
 		i++;
 	}
-	//clearViewPane();
 }
 
-void CLIGUI::clearViewPane () { // FIXME
+void CLIGUI::clearViewPane () {
 	int firstCol = 18;
 	char sf = t->make_color(COLOR_WHITE, COLOR_BLACK);
 	unsigned short *videoMemStart = (unsigned short *)0xB8000;
-	for (int i = firstCol; i < (Terminal::VGA_HEIGHT * Terminal::VGA_WIDTH)-1; i++) {
-		if (i == Terminal::VGA_WIDTH-1) {
-			i += firstCol;
-		} else {
-			videoMemStart[i] = t->makeVGA(sf, ' ');
+	for (int i = firstCol; i < (Terminal::VGA_HEIGHT * Terminal::VGA_WIDTH)-1;) {
+		videoMemStart[i] = t->makeVGA(sf, ' ');
+		i++;
+		if (i % Terminal::VGA_WIDTH == 79) {
+			i += firstCol+1;
 		}
 	}
 }

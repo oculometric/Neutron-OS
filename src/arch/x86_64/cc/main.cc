@@ -8,7 +8,7 @@
 #include "CLIGUI/terminal.h"
 #include "util.h"
 #include "interrupts.h"
-#include "mouse.h"
+#include "input/mouse.h"
 #include "CLIGUI/textgui.h"
 
 const char *stringg = "Hello, World! Num is: ";

@@ -7,6 +7,7 @@ Strikethrough indicates it has been completed. Currently my main concern is with
 
 * ~Bootable long mode system~
 * ~Terminal output~
+* ~Memory management~
 * Keyboard input
 * ~Mouse input~
 * Terminal-based graphical interface

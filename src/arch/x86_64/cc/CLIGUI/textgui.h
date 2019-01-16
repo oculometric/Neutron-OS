@@ -79,5 +79,6 @@ private:
 	void quitClicked ();
 	void prepareMenu ();
 	void showInformation ();
+	void clearViewPane ();
 };
 #endif

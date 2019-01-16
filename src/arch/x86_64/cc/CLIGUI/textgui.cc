@@ -46,14 +46,17 @@ void CLIGUI::prepareMenu() {
 
 void CLIGUI::showInformation () {
 	int firstCol = 18;
-	char *information = R"(
-		======== Neutron OS ========
+	char *information =
+ R"(======== Neutron OS ========
 
-		Neutron OS is a toy operating system created by Jake Costen (aka JkyProgrammer).
-		See below for a usage manual. The menu (on the left) contains several items:
+		Neutron OS is a toy operating system created by Jake Costen
+		(aka JkyProgrammer).
+		See below for a usage manual. The menu (on the left)
+		contains several items:
 		* Information - displays this info page.
 		* Tools - TODO (will show a collection of built-in tools).
-		* Filesystem - TODO (will show a filesystem explorer, when there is a filesystem).
+		* Filesystem - TODO (will show a filesystem explorer, when
+			there is a filesystem).
 		* Shutdown - unsurprisingly, shuts the system down.
 
 		Help also TODO
@@ -77,17 +80,33 @@ void CLIGUI::showInformation () {
 	int terminal_row = 0;
 	int terminal_column = firstCol;
 	unsigned short *videoMemStart = (unsigned short *)0xB8000;
-	while (i < len) {
+	int place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
+	while (i < len) { // FIXME
 		if (link[i] == '\n' || terminal_column >= Terminal::VGA_WIDTH-1) {
 			terminal_row++;
 			terminal_column = firstCol;
+			int place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
 			if (link[i] != '\n') i--;
 		} else if (link[i] != '\b' && link[i] != '\t') {
-			int place = (Terminal::VGA_WIDTH * terminal_row) + terminal_column;
 			videoMemStart[place] = t->makeVGA(sf, link[i]);
+			place++;
 			terminal_column++;
 		}
 		i++;
+	}
+	//clearViewPane();
+}
+
+void CLIGUI::clearViewPane () { // FIXME
+	int firstCol = 18;
+	char sf = t->make_color(COLOR_WHITE, COLOR_BLACK);
+	unsigned short *videoMemStart = (unsigned short *)0xB8000;
+	for (int i = firstCol; i < (Terminal::VGA_HEIGHT * Terminal::VGA_WIDTH)-1; i++) {
+		if (i == Terminal::VGA_WIDTH-1) {
+			i += firstCol;
+		} else {
+			videoMemStart[i] = t->makeVGA(sf, ' ');
+		}
 	}
 }
 

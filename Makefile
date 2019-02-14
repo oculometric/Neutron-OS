@@ -70,4 +70,4 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
 build/arch/$(arch)/%.o: src/arch/$(arch)/c/%.c
 	@echo "Compiling C source file" $<
 	@mkdir -p $(shell dirname $@)
-	@x86_64-w64-mingw32.static-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w #-wc-use-mingw-assembler
+	@x86_64-w64-mingw32.static-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w -fshort-wchar

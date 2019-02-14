@@ -1,6 +1,7 @@
 arch ?= x86_64
-kernel := build/kernel-$(arch).bin
+kernel := build/BOOTX64.EFI
 iso := build/neutron-$(arch).iso
+usb := build/neutron-$(arch).img
 
 linker_script := src/arch/$(arch)/linker.ld
 grub_cfg := src/arch/$(arch)/grub.cfg
@@ -41,8 +42,11 @@ iso: $(iso)
 usb: $(kernel)
 
 $(usb): $(kernel)
-	@echo "Create USB here"
-	$(kernel)
+	@dd if=/dev/zero of=build/fat.img bs=1k count=1440
+	@mformat -i $(usb) -f 1440 ::
+	@mmd -i $(usb) ::/EFI
+	@mmd -i $(usb) ::/EFI/BOOT
+	@mcopy -i $(usb) $(kernel) ::/EFI/BOOT
 
 $(iso): $(kernel) $(grub_cfg)
 	@echo "Generating iso file"
@@ -54,17 +58,16 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(cpp_object_files) #$(linker_script) #$(assembly_object_files)
 	@echo "Linking all"
-	@x86_64-w64-mingw32.static-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o BOOTX64.EFI $(cpp_object_files) -lgcc
-	#@~/opt/cross/bin/x86_64-elf-ld -n -o $(kernel) -T $(linker_script) $(cpp_object_files) $(assembly_object_files)
+	@x86_64-w64-mingw32.static-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(cpp_object_files) -lgcc
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
-	@echo "Compiling assembly source file " $<
+	@echo "Compiling assembly source file" $<
 	@mkdir -p $(shell dirname $@)
 	@nasm -f elf64 $< -o $@
 
 # compile c++ files
 build/arch/$(arch)/%.o: src/arch/$(arch)/cc/%.c
-	@echo "Compiling C++ source file " $<
+	@echo "Compiling C/C++ source file" $<
 	@mkdir -p $(shell dirname $@)
 	@x86_64-w64-mingw32.static-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w #-wc-use-mingw-assembler

@@ -2,6 +2,7 @@
 #include <efilib.h>
 
 //#include "log.h"
+EFI_SYSTEM_TABLE *ST;
 
 EFI_STATUS efi_main (EFI_HANDLE imageHandle, EFI_SYSTEM_TABLE *systemTable) {
 	//logLn ("We're booted into UEFI!");
@@ -12,7 +13,7 @@ EFI_STATUS efi_main (EFI_HANDLE imageHandle, EFI_SYSTEM_TABLE *systemTable) {
     ST = systemTable;
 
     /* Say hi */
-    Status = ST->ConOut->OutputString(ST->ConOut, L"Hello World\n\r");
+    Status = ST->ConOut->OutputString(ST->ConOut, (CHAR16 *)(L"Hello World\n"));
     if (EFI_ERROR(Status))
         return Status;
 

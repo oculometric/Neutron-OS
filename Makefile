@@ -8,8 +8,8 @@ grub_cfg := src/arch/$(arch)/grub.cfg
 assembly_source_files := $(wildcard src/arch/$(arch)/asm/*.asm)
 assembly_object_files := $(patsubst src/arch/$(arch)/asm/%.asm, build/arch/$(arch)/%.o, $(assembly_source_files))
 
-cpp_source_files := src/arch/$(arch)/cc/uefimain.c#$(wildcard src/arch/$(arch)/cc/*.cc src/arch/$(arch)/cc/*/*.cc)
-cpp_object_files := build/arch/$(arch)/uefimain.o#$(patsubst src/arch/$(arch)/cc/%.cc, build/arch/$(arch)/%.o, $(cpp_source_files))
+c_source_files := $(wildcard src/arch/$(arch)/c/*.c src/arch/$(arch)/c/*/*.c)
+c_object_files := $(patsubst src/arch/$(arch)/c/%.c, build/arch/$(arch)/%.o, $(cpp_source_files))
 date    :=          `date +'%d.%m.%y_%H-%M-%S'`.log
 logfile :=          log/serial/Serial-$(date)
 
@@ -25,24 +25,24 @@ clean:
 	@echo "Cleaning"
 	@rm -r build
 
-run: $(iso)
+run: $(usb)
 	@echo "Starting"
 	@touch $(logfile)
-	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G
+	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -usb -usbdevice disk::$(usb) -serial file:$(logfile) -no-reboot
 	@#@qemu-system-x86_64 -cdrom $(iso) -serial stdio -no-reboot -m 8G
 
-debug: $(iso)
+debug: $(usb)
 	@echo "Starting debug"
 	@echo "GDB needs 'target remote localhost:1234'"
 	@touch $(logfile)
-	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G -s -S -d int
+	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -cdrom $(iso) -serial file:$(logfile) -no-reboot -s -S -d int
 
 iso: $(iso)
 
-usb: $(kernel)
+usb: $(usb)
 
 $(usb): $(kernel)
-	@dd if=/dev/zero of=build/fat.img bs=1k count=1440
+	@dd if=/dev/zero of=$(usb) bs=1k count=1440
 	@mformat -i $(usb) -f 1440 ::
 	@mmd -i $(usb) ::/EFI
 	@mmd -i $(usb) ::/EFI/BOOT
@@ -56,9 +56,9 @@ $(iso): $(kernel) $(grub_cfg)
 	@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
 	@rm -r build/isofiles
 
-$(kernel): $(cpp_object_files) #$(linker_script) #$(assembly_object_files)
+$(kernel): $(c_object_files) #$(linker_script) #$(assembly_object_files)
 	@echo "Linking all"
-	@x86_64-w64-mingw32.static-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(cpp_object_files) -lgcc
+	@x86_64-w64-mingw32.static-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
@@ -66,8 +66,8 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
 	@mkdir -p $(shell dirname $@)
 	@nasm -f elf64 $< -o $@
 
-# compile c++ files
-build/arch/$(arch)/%.o: src/arch/$(arch)/cc/%.c
-	@echo "Compiling C/C++ source file" $<
+# compile c files
+build/arch/$(arch)/%.o: src/arch/$(arch)/c/%.c
+	@echo "Compiling C source file" $<
 	@mkdir -p $(shell dirname $@)
 	@x86_64-w64-mingw32.static-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w #-wc-use-mingw-assembler

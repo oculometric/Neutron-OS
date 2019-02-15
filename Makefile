@@ -59,7 +59,7 @@ $(iso): $(kernel) $(grub_cfg)
 $(kernel): $(c_object_files) #$(linker_script) #$(assembly_object_files)
 	@echo "Linking all"
 	@mkdir -p build
-	@x86_64-w64-mingw32.shared-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc -shared -Bsymbolic -T src/linker.ld
+	@x86_64-w64-mingw32.shared-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc -shared -Bsymbolic -T src/arch/x86_64/linker.ld
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm

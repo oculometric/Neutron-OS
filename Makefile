@@ -59,7 +59,7 @@ $(iso): $(kernel) $(grub_cfg)
 $(kernel): $(c_object_files) #$(linker_script) #$(assembly_object_files)
 	@echo "Linking all"
 	@mkdir -p build
-	@x86_64-w64-mingw32.shared-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc #-warn-common -no-undefined -fatal-warnings
+	@x86_64-w64-mingw32.shared-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc -shared -Bsymbolic -T src/linker.ld
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
@@ -71,4 +71,4 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
 build/arch/$(arch)/%.o: src/arch/$(arch)/c/%.c
 	@echo "Compiling C source file" $<
 	@mkdir -p $(shell dirname $@)
-	@x86_64-w64-mingw32.shared-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fshort-wchar -fno-mangle -fno-pic
+	@x86_64-w64-mingw32.shared-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fshort-wchar -fno-mangle -fno-pic -fno-stack-protector -mno-red-zone -DEFI_FUNCTION_WRAPPER

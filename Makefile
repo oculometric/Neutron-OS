@@ -13,7 +13,7 @@ c_object_files := $(patsubst src/arch/$(arch)/c/%.c, build/arch/$(arch)/%.o, $(c
 date    :=          `date +'%d.%m.%y_%H-%M-%S'`.log
 logfile :=          log/serial/Serial-$(date)
 
-.PHONY: all clean run iso
+.PHONY: all clean run usb
 
 all: $(kernel)
 
@@ -35,7 +35,7 @@ debug: $(usb)
 	@echo "Starting debug"
 	@echo "GDB needs 'target remote localhost:1234'"
 	@touch $(logfile)
-	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -cdrom $(iso) -serial file:$(logfile) -no-reboot -s -S -d int
+	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -usb -usbdevice disk::$(usb) -serial file:$(logfile) -no-reboot -s -S -d int
 
 iso: $(iso)
 
@@ -58,7 +58,8 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(c_object_files) #$(linker_script) #$(assembly_object_files)
 	@echo "Linking all"
-	@x86_64-w64-mingw32.static-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc
+	@mkdir -p build
+	@x86_64-w64-mingw32.shared-gcc -nostdlib -Wl,-dll -shared -Wl,--subsystem,10 -e efi_main -o build/BOOTX64.EFI $(c_object_files) -lgcc #-warn-common -no-undefined -fatal-warnings
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
@@ -70,4 +71,4 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
 build/arch/$(arch)/%.o: src/arch/$(arch)/c/%.c
 	@echo "Compiling C source file" $<
 	@mkdir -p $(shell dirname $@)
-	@x86_64-w64-mingw32.static-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w -fshort-wchar
+	@x86_64-w64-mingw32.shared-gcc -c $< -o $@ -ffreestanding -Ignu-efi/inc -Ignu-efi/inc/x86_64 -Ignu-efi/inc/protocol -O2 -Wall -Wextra -fno-exceptions -fshort-wchar -fno-mangle -fno-pic

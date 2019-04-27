@@ -1,0 +1,227 @@
+[2J[01;01H[=3h[2J[01;01H[2J[01;01H[=3h[2J[01;01H[2J[01;01H[=3h[2J[01;01H[0m[35m[40m[2J[01;01H[=3h[2J[01;01H[0m[37m[40m[2J[01;01H[01;01HUEFI Interactive Shell v2.2
+EDK II
+UEFI v2.70 (EDK II, 0x00010000)
+[1m[33m[40mMapping table[0m[37m[40m
+[1m[33m[40m      FS0:[0m[37m[40m [1m[37m[40mAlias(s):[0m[37m[40mHD2a0b:;BLK4:
+          PciRoot(0x0)/Pci(0x1,0x2)/USB(0x0,0x0)/HD(1,MBR,0x00000000,0x0,0xB40)
+[1m[33m[40m     BLK2:[0m[37m[40m [1m[37m[40mAlias(s):[0m[37m[40m
+          PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
+[1m[33m[40m     BLK0:[0m[37m[40m [1m[37m[40mAlias(s):[0m[37m[40m
+          PciRoot(0x0)/Pci(0x1,0x0)/Floppy(0x0)
+[1m[33m[40m     BLK1:[0m[37m[40m [1m[37m[40mAlias(s):[0m[37m[40m
+          PciRoot(0x0)/Pci(0x1,0x0)/Floppy(0x1)
+[1m[33m[40m     BLK3:[0m[37m[40m [1m[37m[40mAlias(s):[0m[37m[40m
+          PciRoot(0x0)/Pci(0x1,0x2)/USB(0x0,0x0)
+[15;01HPress [1m[37m[40mESC[0m[37m[40m in 5 seconds to skip [1m[33m[40mstartup.nsh[0m[37m[40m or any other key to continue.[15;01HPress [1m[37m[40mESC[0m[37m[40m in 4 seconds to skip [1m[33m[40mstartup.nsh[0m[37m[40m or any other key to continue.[15;01HPress [1m[37m[40mESC[0m[37m[40m in 3 seconds to skip [1m[33m[40mstartup.nsh[0m[37m[40m or any other key to continue.[15;01HPress [1m[37m[40mESC[0m[37m[40m in 2 seconds to skip [1m[33m[40mstartup.nsh[0m[37m[40m or any other key to continue.[15;01HPress [1m[37m[40mESC[0m[37m[40m in 1 seconds to skip [1m[33m[40mstartup.nsh[0m[37m[40m or any other key to continue.
+[16;01H[1m[33m[40mShell> [0m[37m[40m[16;08Hl[16;09H[16;09Ho[16;10H[16;10Ha[16;11H[16;11Hd[16;12H[16;12H [16;13H[16;13HB[16;14H[16;14HL[16;15H[16;15HK[16;16H[16;16H3[16;17H[16;17H
+[1m[37m[40mload[0m[37m[40m: File not found - '[1m[37m[40mBLK3[0m[37m[40m'
+[18;01H[1m[33m[40mShell> [0m[37m[40m[18;08Hc[18;09H[18;09Hd[18;10H[18;10H [18;11H[18;11HB[18;12H[18;12HL[18;13H[18;13HK[18;14H[18;14H3[18;15H[18;15H
+[1m[37m[40mcd[0m[37m[40m: Current directory not specified.
+[20;01H[1m[33m[40mShell> [0m[37m[40m[20;08HB[20;09H[20;09HL[20;10H[20;10HK[20;11H[20;11H3[20;12H[20;12H
+'[1m[33m[40mBLK3[0m[37m[40m' is not recognized as an internal or external command, operable program, or script file.
+[23;01H[1m[33m[40mShell> [0m[37m[40m[23;08H[23;08H[23;08H[23;08Hh[23;09H[23;09He[23;10H[23;10Hl[23;11H[23;11Hp[23;12H[23;12H
+[1m[37m[40malias         [0m[37m[40m- Displays, creates, or deletes UEFI Shell aliases.
+[1m[37m[40mattrib        [0m[37m[40m- Displays or modifies the attributes of files or directories.
+[1m[37m[40mbcfg          [0m[37m[40m- Manages the boot and driver options that are stored in NVRAM.
+[1m[37m[40mcd            [0m[37m[40m- Displays or changes the current directory.
+[1m[37m[40mcls           [0m[37m[40m- Clears the console output and optionally changes the background and foreground color.
+[1m[37m[40mcomp          [0m[37m[40m- Compares the contents of two files on a byte-for-byte basis.
+[1m[37m[40mconnect       [0m[37m[40m- Binds a driver to a specific device and starts the driver.
+[1m[37m[40mcp            [0m[37m[40m- Copies one or more files or directories to another location.
+[1m[37m[40mdate          [0m[37m[40m- Displays and sets the current date for the system.
+[1m[37m[40mdblk          [0m[37m[40m- Displays one or more blocks from a block device.
+[1m[37m[40mdevices       [0m[37m[40m- Displays the list of devices managed by UEFI drivers.
+[1m[37m[40mdevtree       [0m[37m[40m- Displays the UEFI Driver Model compliant device tree.
+[1m[37m[40mdh            [0m[37m[40m- Displays the device handles in the UEFI environment.
+[1m[37m[40mdisconnect    [0m[37m[40m- Disconnects one or more drivers from the specified devices.
+[1m[37m[40mdmem          [0m[37m[40m- Displays the contents of system or device memory.
+[1m[37m[40mdmpstore      [0m[37m[40m- Manages all UEFI variables.
+[1m[37m[40mdrivers       [0m[37m[40m- Displays the UEFI driver list.
+[1m[37m[40mdrvcfg        [0m[37m[40m- Invokes the driver configuration.
+[1m[37m[40mdrvdiag       [0m[37m[40m- Invokes the Driver Diagnostics Protocol.
+[1m[37m[40mecho          [0m[37m[40m- Controls script file command echoing or displays a message.
+[1m[37m[40medit          [0m[37m[40m- Provides a full screen text editor for ASCII or UCS-2 files.
+[1m[37m[40meficompress   [0m[37m[40m- Compresses a file using UEFI Compression Algorithm.
+[1m[37m[40mefidecompress [0m[37m[40m- Decompresses a file using UEFI Decompression Algorithm.
+[1m[37m[40melse          [0m[37m[40m- Identifies the code executed when 'if' is FALSE.
+[1m[37m[40mendfor        [0m[37m[40m- Ends a 'for' loop.
+[1m[37m[40mendif         [0m[37m[40m- Ends the block of a script controlled by an 'if' statement.
+[1m[37m[40mexit          [0m[37m[40m- Exits the UEFI Shell or the current script.
+[1m[37m[40mfor           [0m[37m[40m- Starts a loop based on 'for' syntax.
+[1m[37m[40mgetmtc        [0m[37m[40m- Gets the MTC from BootServices and displays it.
+[1m[37m[40mgoto          [0m[37m[40m- Moves around the point of execution in a script.
+[1m[37m[40mhelp          [0m[37m[40m- Displays the UEFI Shell command list or verbose command help.
+[1m[37m[40mhexedit       [0m[37m[40m- Provides a full screen hex editor for files, block devices, or memory.
+[1m[37m[40mif            [0m[37m[40m- Executes commands in specified conditions.
+[1m[37m[40mifconfig      [0m[37m[40m- Modifies the default IP address of the UEFI IPv4 Network Stack.
+[1m[37m[40mload          [0m[37m[40m- Loads a UEFI driver into memory.
+[1m[37m[40mloadpcirom    [0m[37m[40m- Loads a PCI Option ROM.
+[1m[37m[40mls            [0m[37m[40m- Lists the contents of a directory or file information.
+[1m[37m[40mmap           [0m[37m[40m- Displays or defines file system mappings.
+[1m[37m[40mmemmap        [0m[37m[40m- Displays the memory map maintained by the UEFI environment.
+[1m[37m[40mmkdir         [0m[37m[40m- Creates one or more new directories.
+[1m[37m[40mmm            [0m[37m[40m- Displays or modifies MEM/MMIO/IO/PCI/PCIE address space.
+[1m[37m[40mmode          [0m[37m[40m- Displays or changes the console output device mode.
+[1m[37m[40mmv            [0m[37m[40m- Moves one or more files to a destination within or between file systems.
+[1m[37m[40mopeninfo      [0m[37m[40m- Displays the protocols and agents associated with a handle.
+[1m[37m[40mparse         [0m[37m[40m- Retrieves a value from a standard format output file.
+[1m[37m[40mpause         [0m[37m[40m- Pauses a script and waits for an operator to press a key.
+[1m[37m[40mpci           [0m[37m[40m- Displays PCI device list or PCI function configuration space and PCIe extended
+configuration space.
+[1m[37m[40mping          [0m[37m[40m- Ping the target host with an IPv4 stack.
+[1m[37m[40mreconnect     [0m[37m[40m- Reconnects drivers to the specific device.
+[1m[37m[40mreset         [0m[37m[40m- Resets the system.
+[1m[37m[40mrm            [0m[37m[40m- Deletes one or more files or directories.
+[1m[37m[40msermode       [0m[37m[40m- Sets serial port attributes.
+[1m[37m[40mset           [0m[37m[40m- Displays or modifies UEFI Shell environment variables.
+[1m[37m[40msetsize       [0m[37m[40m- Adjusts the size of a file.
+[1m[37m[40msetvar        [0m[37m[40m- Displays or modifies a UEFI variable.
+[1m[37m[40mshift         [0m[37m[40m- Shifts in-script parameter positions.
+[1m[37m[40msmbiosview    [0m[37m[40m- Displays SMBIOS information.
+[1m[37m[40mstall         [0m[37m[40m- Stalls the operation for a specified number of microseconds.
+[1m[37m[40mtftp          [0m[37m[40m- Download a file from TFTP server.
+[1m[37m[40mtime          [0m[37m[40m- Displays or sets the current time for the system.
+[1m[37m[40mtimezone      [0m[37m[40m- Displays or sets time zone information.
+[1m[37m[40mtouch         [0m[37m[40m- Updates the filename timestamp with the current system date and time.
+[1m[37m[40mtype          [0m[37m[40m- Sends the contents of a file to the standard output device.
+[1m[37m[40munload        [0m[37m[40m- Unloads a driver image that was already loaded.
+[1m[37m[40mver           [0m[37m[40m- Displays UEFI Firmware version information.
+[1m[37m[40mvol           [0m[37m[40m- Displays or modifies information about a disk volume.
+
+Help usage:help [[1m[37m[40mcmd[0m[37m[40m|[1m[37m[40mpattern[0m[37m[40m|[1m[37m[40mspecial[0m[37m[40m] [[1m[37m[40m-usage[0m[37m[40m] [[1m[37m[40m-verbose[0m[37m[40m] [[1m[37m[40m-section name[0m[37m[40m][[1m[37m[40m-b[0m[37m[40m]
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hl[25;09H[25;09Hs[25;10H[25;10H
+[1m[37m[40mls[0m[37m[40m: Current directory not specified.
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hh[25;09H[25;09He[25;10H[25;10Hl[25;11H[25;11Hp[25;12H[25;12H [25;13H[25;13Hc[25;14H[25;14Hm[25;15H[25;15Hd[25;16H[25;16H
+No help could be found for command '[1m[34m[40mcmd[0m[37m[40m'.
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hh[25;09H[25;09He[25;10H[25;10Hl[25;11H[25;11Hp[25;12H[25;12H [25;13H[25;13Hc[25;14H[25;14Hd[25;15H[25;15H
+Displays or changes the current directory.
+ 
+CD [path]
+ 
+  path - Specifies the relative or absolute directory path.
+ 
+NOTES:
+  1. This command changes the current working directory that is used by the
+     UEFI Shell environment. If a file system mapping is specified, then the
+     current working directory is changed for that device. Otherwise, the
+     current working directory is changed for the current device.
+  2. If path is not present, then the current working directory (including
+     file system mapping) is displayed to standard out.
+  3. The table below describes the conventions that are used to refer to the
+     directory, its parent, and the root directory in the UEFI Shell
+     environment.
+     Convention  Description
+      '.'        Refers to the current directory.
+      '..'       Refers to the directory's parent.
+      '\'        Refers to the root of the current file system.
+  4. The current working directory is maintained in the environment
+     variable %cwd%.
+ 
+EXAMPLES:
+  * To change the current file system to the mapped fs0 file system:
+    Shell> fs0:
+ 
+  * To change the current directory to subdirectory 'efi':
+    fs0:\> cd efi
+ 
+  * To change the current directory to the parent directory (fs0:\):
+    fs0:\efi\> cd ..
+ 
+  * To change the current directory to 'fs0:\efi\Tools':
+    fs0:\> cd efi\Tools
+ 
+  * To change the current directory to the root of the current fs (fs0):
+    fs0:\efi\Tools\> cd \ 
+ 
+  * To move between volumes and maintain the current path, and then copy
+    all of files in fs0:\efi\Tools into the fs1:\Tmp directory:
+    fs0:\> cd \efi\Tools
+    fs0:\efi\Tools\> fs1:
+    fs1:\> cd Tmp
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hc[25;09H[25;09Hd[25;10H[25;10H [25;11H[25;11HB[25;12H[25;12HL[25;13H[25;13HK[25;14H[25;14H3[25;15H[25;15H:[25;16H[25;16H`[25;17H[25;16H [25;16H[25;16H
+[1m[37m[40mcd[0m[37m[40m: Current directory not specified.
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08HB[25;09H[25;09HL[25;10H[25;10HK[25;11H[25;11H3[25;12H[25;12H
+'[1m[33m[40mBLK3[0m[37m[40m' is not recognized as an internal or external command, operable program, or script file.
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08HBLK3[25;12H[25;12H:[25;13H[25;13H
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hl[25;09H[25;09Hs[25;10H[25;10H
+[1m[37m[40mls[0m[37m[40m: Current directory not specified.
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08Hls[25;10H[25;08HBLK3:[25;13H[25;08HBLK3 [25;12H[25;08Hcd BLK3:[25;16H[25;08Hhelp cd [25;15H[25;15H
+Displays or changes the current directory.
+ 
+CD [path]
+ 
+  path - Specifies the relative or absolute directory path.
+ 
+NOTES:
+  1. This command changes the current working directory that is used by the
+     UEFI Shell environment. If a file system mapping is specified, then the
+     current working directory is changed for that device. Otherwise, the
+     current working directory is changed for the current device.
+  2. If path is not present, then the current working directory (including
+     file system mapping) is displayed to standard out.
+  3. The table below describes the conventions that are used to refer to the
+     directory, its parent, and the root directory in the UEFI Shell
+     environment.
+     Convention  Description
+      '.'        Refers to the current directory.
+      '..'       Refers to the directory's parent.
+      '\'        Refers to the root of the current file system.
+  4. The current working directory is maintained in the environment
+     variable %cwd%.
+ 
+EXAMPLES:
+  * To change the current file system to the mapped fs0 file system:
+    Shell> fs0:
+ 
+  * To change the current directory to subdirectory 'efi':
+    fs0:\> cd efi
+ 
+  * To change the current directory to the parent directory (fs0:\):
+    fs0:\efi\> cd ..
+ 
+  * To change the current directory to 'fs0:\efi\Tools':
+    fs0:\> cd efi\Tools
+ 
+  * To change the current directory to the root of the current fs (fs0):
+    fs0:\efi\Tools\> cd \ 
+ 
+  * To move between volumes and maintain the current path, and then copy
+    all of files in fs0:\efi\Tools into the fs1:\Tmp directory:
+    fs0:\> cd \efi\Tools
+    fs0:\efi\Tools\> fs1:
+    fs1:\> cd Tmp
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08HB[25;09H[25;09HL[25;10H[25;10HK[25;11H[25;11H0[25;12H[25;12H:[25;13H[25;13H
+[25;01H[1m[33m[40mShell> [0m[37m[40m[25;08HF[25;09H[25;09Hf[25;10H[25;09H [25;09H[25;08H [25;08H[25;08Hf[25;09H[25;09Hs[25;10H[25;10H0[25;11H[25;11H:[25;12H[25;12H
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hl[25;09H[25;09Hs[25;10H[25;10H
+[25;01HDirectory of: [1m[37m[40mFS0:\[0m[37m[40m
+04/27/2019  18:05 <DIR>           512  [1m[34m[40mEFI[0m[37m[40m
+          0 File(s)           0 bytes
+          1 Dir(s)
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hc[25;09H[25;09Hd[25;10H[25;10H [25;11H[25;11HE[25;12H[25;12HF[25;13H[25;13HI[25;14H[25;14H
+[25;01H[1m[33m[40mFS0:\EFI\> [0m[37m[40m[25;12Hl[25;13H[25;13Hs[25;14H[25;14H
+[25;01HDirectory of: [1m[37m[40mFS0:\EFI\[0m[37m[40m
+04/27/2019  18:05 <DIR>           512  [1m[34m[40m.[0m[37m[40m
+04/27/2019  18:05 <DIR>             0  [1m[34m[40m..[0m[37m[40m
+04/27/2019  18:05 <DIR>           512  [1m[34m[40mBOOT[0m[37m[40m
+          0 File(s)           0 bytes
+          3 Dir(s)
+[25;01H[1m[33m[40mFS0:\EFI\> [0m[37m[40m[25;12Hc[25;13H[25;13Hd[25;14H[25;14H [25;15H[25;15HB[25;16H[25;16HO[25;17H[25;17HO[25;18H[25;18HT[25;19H[25;19H
+[25;01H[1m[33m[40mFS0:\EFI\BOOT\> [0m[37m[40m[25;17Hl[25;18H[25;18Hs[25;19H[25;19H
+[25;01HDirectory of: [1m[37m[40mFS0:\EFI\BOOT\[0m[37m[40m
+04/27/2019  18:05 <DIR>           512  [1m[34m[40m.[0m[37m[40m
+04/27/2019  18:05 <DIR>           512  [1m[34m[40m..[0m[37m[40m
+04/27/2019  18:05               1,829  [1m[32m[40mBOOTX64.EFI[0m[37m[40m
+          1 File(s)       1,829 bytes
+          2 Dir(s)
+[25;01H[1m[33m[40mFS0:\EFI\BOOT\> [0m[37m[40m[25;17Hl[25;18H[25;18Ho[25;19H[25;19Ha[25;20H[25;20Hd[25;21H[25;21H [25;22H[25;22HF[25;23H[25;23HS[25;24H[25;24H0[25;25H[25;25H
+[1m[37m[40mload[0m[37m[40m: File not found - '[1m[37m[40mFS0[0m[37m[40m'
+[25;01H[1m[33m[40mFS0:\EFI\BOOT\> [0m[37m[40m[25;17Hl[25;18H[25;18Ho[25;19H[25;19Ha[25;20H[25;20Hd[25;21H[25;21H [25;22H[25;22HB[25;23H[25;23HO[25;24H[25;24HO[25;25H[25;25HT[25;26H[25;26Hx[25;27H[25;26H [25;26H[25;26HX[25;27H[25;27H6[25;28H[25;28H4[25;29H[25;29H.[25;30H[25;30HE[25;31H[25;31HF[25;32H[25;32HI[25;33H[25;33H
+Image 'FS0:\EFI\BOOT\BOOTX64.EFI' is not an image.
+[25;01H[1m[33m[40mFS0:\EFI\BOOT\> [0m[37m[40m[25;17Hc[25;18H[25;18Hd[25;19H[25;19H [25;20H[25;20H.[25;21H[25;21H.[25;22H[25;22H
+[25;01H[1m[33m[40mFS0:\EFI\> [0m[37m[40m[25;12Hc[25;13H[25;13Hd[25;14H[25;14H [25;15H[25;15H.[25;16H[25;16H.[25;17H[25;17H
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hc[25;09H[25;09Hd[25;10H[25;10H [25;11H[25;11H.[25;12H[25;12H.[25;13H[25;13H
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hl[25;09H[25;09Ho[25;10H[25;10Ha[25;11H[25;11Hd[25;12H[25;12H [25;13H[25;13HF[25;14H[25;14HS[25;15H[25;15H0[25;16H[25;16H:[25;17H[25;17H
+Image 'FS0:\' is not an image.
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hload FS0:[25;17H[25;16H [25;16H[25;15H [25;15H[25;14H [25;14H[25;13H [25;13H[25;13HB[25;14H[25;14HL[25;15H[25;15HK[25;16H[25;16H0[25;17H[25;16H [25;16H[25;16H3[25;17H[25;17H:[25;18H[25;18H
+[1m[37m[40mload[0m[37m[40m: File not found - '[1m[37m[40mBLK3:[0m[37m[40m'
+[25;01H[1m[33m[40mFS0:\> [0m[37m[40m[25;08Hr[25;09H[25;09He[25;10H[25;10Hs[25;11H[25;11He[25;12H[25;12Ht[25;13H[25;13H

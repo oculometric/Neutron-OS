@@ -6,7 +6,7 @@ EFI_SYSTEM_TABLE *ST;
 EFI_STATUS efi_main (EFI_HANDLE imageHandle, EFI_SYSTEM_TABLE *systemTable) {
 	EFI_STATUS status;
     InitializeLib(ImageHandle, SystemTable);
-
+		__asm__("hlt");
     // Initialize graphics
     EFI_GRAPHICS_OUTPUT_PROTOCOL *graphics;
     EFI_GUID graphics_proto = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;

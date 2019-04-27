@@ -64,11 +64,14 @@ private:
 	MousePacket *p;
 	signed int mouseX;
 	signed int mouseY;
+	float mouseBackingX;
+	float mouseBackingY;
+
 	Terminal *t;
 	bool shouldContinue;
 	bool leftButton, rightButton, middleButton;
 	char currentlyOverlyedStyleFlag;
-	int processedMotion (int input);
+	float processedMotion (int input);
 
 	void handleMouseUp (int button);
 	void handleMouseDown (int button);

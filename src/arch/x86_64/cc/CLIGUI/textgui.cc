@@ -208,11 +208,13 @@ int CLIGUI::main () {
 	return 0;
 }
 
-int CLIGUI::processedMotion (int input) {
-	if (input > 20) return input/16;
-	if (input > 10) return input/8;
-	if (input > 5) return input/4;
-	return input/2;
+float CLIGUI::processedMotion (int input) {
+	logLn ("Processing input");
+	logInt(input);
+	if (input > 20) return (float)(input)/16.0;
+	if (input > 10) return (float)(input)/8.0;
+	if (input > 5) return (float)(input)/4.0;
+	return (float)(input)/2.0;
 }
 
 void CLIGUI::runMouseUpdate () {
@@ -221,19 +223,23 @@ void CLIGUI::runMouseUpdate () {
 		if (p->xMovement || p->yMovement) {
 			t->setStyleFlag(mouseX, mouseY, currentlyOverlyedStyleFlag);
 			if (!p->xIsNegative) {
-				mouseX += processedMotion(p->xMovement);
+				mouseX += p->xMovement;
 			} else {
-				mouseX -= processedMotion(p->xMovement);
+				mouseX -= p->xMovement;
 			}
 			if (mouseX < 0) mouseX = 0;
 			else if (mouseX > Terminal::VGA_WIDTH-1) mouseX = Terminal::VGA_WIDTH-1;
+
+
+
 			if (!p->yIsNegative) {
-				mouseY -= processedMotion(p->yMovement) / 2;
+				mouseY -= p->yMovement / 2;
 			} else {
-				mouseY += processedMotion(p->yMovement) / 2;
+				mouseY += p->yMovement / 2;
 			}
 			if (mouseY < 0) mouseY = 0;
 			else if (mouseY > Terminal::VGA_HEIGHT-1) mouseY = Terminal::VGA_HEIGHT-1;
+
 			currentlyOverlyedStyleFlag = t->getStyleFlag (mouseX, mouseY);
 			t->setStyleFlag(mouseX, mouseY, t->make_color(COLOR_BLACK, COLOR_LIGHT_GREY));
 			handleMouseMoved();

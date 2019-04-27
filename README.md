@@ -5,11 +5,11 @@ Neutron OS is a toy operating system. Maybe it will be useful, but probably it w
 ## Key Points
 Strikethrough indicates it has been completed. Currently my main concern is with the terminal-based interface.
 
-* ~Bootable long mode system~
-* ~Terminal output~
-* ~Memory management~
+* Bootable long mode system
+* Terminal output
+* Memory management
 * Keyboard input
-* ~Mouse input~
+* Mouse input
 * Terminal-based graphical interface
 * Interrupts and proper event handling
 * BIOS interrupts
@@ -26,7 +26,8 @@ If you want to build for yourself, use the Makefile.
 * ```make debug``` is just make run, except the running options are set up to connect the OS to gdb for debugging.
 * ```make cleanserial``` (unsurprisingly) cleans the logs from the serial log directory).
 
+**Beware! You will need clang, the gnu-efi library, qemu, and OVMF for this to work. Don't say I didn't warn you!**
+
 
 ## Contributions
-Based partly on its predecessor OtterOS, which was contributed to by **DaBatchMan**.
 Copyright **JkyProgrammer** 2018-2019

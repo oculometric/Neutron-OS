@@ -29,13 +29,7 @@ clean:
 run: $(usb)
 	@echo "Starting"
 	@touch $(logfile)
-	@qemu-system-x86_64 -L $(ovmf_dir)/ -bios $(ovmf) -usb -usbdevice disk::$(usb)
-
-debug: $(usb)
-	@echo "Starting debug"
-	@echo "GDB needs 'target remote localhost:1234'"
-	@touch $(logfile)
-	@qemu-system-x86_64 -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -cdrom $(iso) -serial file:$(logfile) -s -S -d int
+	@sudo qemu-system-x86_64 -L $(ovmf_dir)/ -bios $(ovmf) -usb -drive file=$(usb) -net none
 
 iso: $(iso)
 

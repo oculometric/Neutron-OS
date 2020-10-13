@@ -48,6 +48,10 @@ void logLn(char *s) {
   write_serial(0x0A);
 }
 
+void logLn() {
+  write_serial(0x0A);
+}
+
 void log(char *s) {
   for (int i = 0; s[i] != NULL; i++) {
     write_serial(s[i]);
@@ -56,7 +60,6 @@ void log(char *s) {
 
 void logChar (char c) {
 	write_serial(c);
-	write_serial(0x0A);
 }
 
 void logInt (long int i) {
@@ -67,7 +70,7 @@ void logInt (long int i) {
   } while (c /= 10);
 	char s[r] = {0x0};
 	intToString(s, i, 10);
-  logLn (s);
+  log (s);
 }
 
 void logHex (long long int i) {
@@ -79,12 +82,12 @@ void logHex (long long int i) {
 	char s[r] = {0x0};
 	intToString(s, i, 16);
 	log ("0x");
-  logLn (s);
+  log (s);
 }
 
 void logBool (bool b) {
   char *s = b ? (char *)"true" : (char *)"false";
-  logLn (s);
+  log (s);
 }
 
 void logLn (string *s) {

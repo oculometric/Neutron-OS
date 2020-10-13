@@ -151,8 +151,6 @@ void CLIGUI::quitClicked () {
 
 void CLIGUI::setup () {
 	logLn ("Initialising required things...      ");
-	initMouse();
-	p = new MousePacket;
 	t = new Terminal ();
 	t->disableTextCursor();
 	buttons = (CLIButton **)calloc(sizeof(CLIButton*) * 30); // Space for 30 button pointers
@@ -163,8 +161,8 @@ void CLIGUI::setup () {
 	t->resetTerminal();
 	logLn ("Done.");
 
-	mouseX = 0;
-	mouseY = 0;
+	mouseX = 40;
+	mouseY = 12;
 
 	shouldContinue = true;
 	leftButton = false;
@@ -202,7 +200,7 @@ void CLIGUI::tidyup() {
 
 int CLIGUI::main () {
 	while (shouldContinue) {
-		runMouseUpdate ();
+		// TODO: Get keyboard input
 	}
 	tidyup();
 	return 0;

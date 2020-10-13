@@ -16,6 +16,7 @@ char read_serial();
 
 void logLn (char *s);
 void logLn (string *s);
+void logLn ();
 void log (string *s);
 void log (char *s);
 void logChar (char c);

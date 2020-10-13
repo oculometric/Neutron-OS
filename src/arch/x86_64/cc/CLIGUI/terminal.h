@@ -28,6 +28,7 @@ class Terminal {
 public:
   void print (const char *s);
   void println (const char *s);
+  void println ();
 	void print (string *s);
   void println (string *s);
   void deleteChars (int num);

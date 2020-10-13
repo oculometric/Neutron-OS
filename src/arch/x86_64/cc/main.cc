@@ -77,7 +77,7 @@ extern "C" void kernel_main (int gdtPointer) {
 	// cg->main();
 	Terminal *t = new Terminal;
 	t->println("Hello, World!");
-	setupPICs();
+	//setupPICs();
 	// while (true) {
 	// 	char c = readScanCode ();
 	// 	log ("Got character as input: ");
@@ -87,10 +87,9 @@ extern "C" void kernel_main (int gdtPointer) {
 	// 		t->println ("Q");
 	// 	}
 	// }
-
-	// SCS1 - 0x43
-	// SCS2 - 0x41
-	// SCS3 - 0x3f
+	setScanCodeSet ((unsigned int)3);
+	t->println (new string (getScanCodeSet(), 10));
+	setKeyMode (2);
 
 	// log ("Initialising IDT...             ");
 	// initIDT(gdtPointer);

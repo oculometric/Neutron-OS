@@ -24,6 +24,7 @@ cleanserial:
 clean:
 	@echo "Cleaning"
 	@rm -r build
+	@rm -r log
 
 run: $(iso)
 	@echo "Starting"

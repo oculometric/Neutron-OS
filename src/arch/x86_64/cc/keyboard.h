@@ -12,23 +12,22 @@
 
 
 // Keyboard stuff
-void keyboardInterruptHandle ();
+void keyboardInterruptHandle (); // TODO: Unimplemented
 typedef struct KeypressPacket {
 	bool down;
 	char character;
 };
-KeypressPacket getCurrentScancode ();
+KeypressPacket pollScancode (); // TODO: Unimplemented
 
-unsigned char readScanCode ();
 void setupPICs ();
 
 void setLEDState (int n, bool on);
 void setScanCodeSet (int i);
 int getScanCodeSet ();
-void identifyKeyboard ();
+void identifyKeyboard (char* p);
 void setTypematicSpeed (char repeat, char delay);
-void setSendScanCodes (bool on);
+void setScanningOn (bool on);
 void resetParameters ();
-void setKeyMode (int mode);
-void setKeyMode (int mode, char key);
-char restart ();
+void setKeyMode (unsigned int mode); // TODO: Unimplemented
+void setKeyMode (unsigned int mode, char key); // TODO: Unimplemented
+char restart (); // TODO: Unimplemented

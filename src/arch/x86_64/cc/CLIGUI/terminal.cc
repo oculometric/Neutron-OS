@@ -104,6 +104,11 @@ void Terminal::println (const char *s) {
   updateCursorLocation();
 }
 
+void Terminal::println () {
+  moveToNextLine();
+  updateCursorLocation();
+}
+
 void Terminal::print (string *s) {
 	this->print((char *)s->getData());
 }

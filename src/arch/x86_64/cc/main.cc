@@ -10,6 +10,7 @@
 #include "interrupts.h"
 #include "input/mouse.h"
 #include "CLIGUI/textgui.h"
+#include "keyboard.h"
 
 const char *stringg = "Hello, World! Num is: ";
 
@@ -61,18 +62,34 @@ extern "C" void kernel_main (int gdtPointer) {
 
 	log ("GDT Code Segment is declared as ");
 	logInt (gdtPointer);
+	logLn();
 
 	log ("Preparing memory...             ");
 	prepMemory();
 	logLn ("Done.");
 
-	logLn ("Initialising CLIGUI object... ");
-	CLIGUI *cg = new CLIGUI;
-	cg->setup();
-	logLn ("Done.");
+	// logLn ("Initialising CLIGUI object... ");
+	// CLIGUI *cg = new CLIGUI;
+	// cg->setup();
+	// logLn ("Done.");
 
-	logLn ("Transferring to console GUI control.");
-	cg->main();
+	// logLn ("Transferring to console GUI control.");
+	// cg->main();
+	Terminal *t = new Terminal;
+	t->println("Hello, World!");
+	//setupPICs();
+	// while (true) {
+	// 	char c = readScanCode ();
+	// 	log ("Got character as input: ");
+	// 	logHex (c);
+	// 	logLn();
+	// 	if (c == 10) {
+	// 		t->println ("Q");
+	// 	}
+	// }
+	setScanCodeSet ((unsigned int)3);
+	t->println (new string (getScanCodeSet(), 10));
+	setKeyMode (2);
 
 	// log ("Initialising IDT...             ");
 	// initIDT(gdtPointer);

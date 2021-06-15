@@ -4,7 +4,7 @@
 void initMouse () {
 	setEnableStreaming(true);
 	setResolution(0x00); // 1 count per mm
-	setScaling(false);   // Linear scaling
+	setScaling(true);   // Non-linear scaling
 }
 
 bool isPacketAvailable () {

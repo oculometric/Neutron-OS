@@ -10,7 +10,8 @@ assembly_object_files := $(patsubst src/arch/$(arch)/asm/%.asm, build/arch/$(arc
 cpp_source_files := $(wildcard src/arch/$(arch)/cc/*.cc src/arch/$(arch)/cc/*/*.cc)
 cpp_object_files := $(patsubst src/arch/$(arch)/cc/%.cc, build/arch/$(arch)/%.o, $(cpp_source_files))
 date    :=          `date +'%d.%m.%y_%H-%M-%S'`.log
-logfile :=          log/serial/Serial-$(date)
+logDir  := log/serial/
+logfile :=          $(logDir)Serial-$(date)
 
 .PHONY: all clean run iso
 
@@ -23,9 +24,11 @@ cleanserial:
 clean:
 	@echo "Cleaning"
 	@rm -r build
+	@rm -r log
 
 run: $(iso)
 	@echo "Starting"
+	@mkdir -p $(logDir)
 	@touch $(logfile)
 	@qemu-system-x86_64 -cdrom $(iso) -serial file:$(logfile) -no-reboot -m 8G
 	@#@qemu-system-x86_64 -cdrom $(iso) -serial stdio -no-reboot -m 8G
@@ -48,7 +51,7 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(cpp_object_files) $(assembly_object_files) $(linker_script)
 	@echo "Linking all"
-	@~/opt/cross/bin/x86_64-elf-ld -n -o $(kernel) -T $(linker_script) $(cpp_object_files) $(assembly_object_files)
+	@/usr/local/bin/x86_64-elf-ld -n -o $(kernel) -T $(linker_script) $(cpp_object_files) $(assembly_object_files)
 
 # compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
@@ -60,4 +63,4 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/asm/%.asm
 build/arch/$(arch)/%.o: src/arch/$(arch)/cc/%.cc
 	@echo "Compiling C++ source file " $<
 	@mkdir -p $(shell dirname $@)
-	@~/opt/cross/bin/x86_64-elf-g++ -c $< -o $@ -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w
+	@/usr/local/bin/x86_64-elf-g++ -c $< -o $@ -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -w

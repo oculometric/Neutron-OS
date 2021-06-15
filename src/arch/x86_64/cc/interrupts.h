@@ -1,5 +1,3 @@
-#include <stdint.h>
-#include <stddef.h>
 //
 // // A struct describing an interrupt gate.
 // struct idt_entry_struct
@@ -33,22 +31,3 @@
 // void idt_set_gate(uint8_t,uint64_t,uint16_t,uint8_t);
 // extern "C" void isrHandler (char intNum, char errCode);
 //
-#ifndef KBD_DATA
-#define KBD_DATA 0x60
-#define KBD_COMMAND 0x64
-#define ACK 0xFA
-#define PIC1 0x20
-#define PIC2 0xA0
-#endif
-
-
-// Keyboard stuff
-void keyboardInterruptHandle ();
-typedef struct KeypressPacket {
-	bool down;
-	char character;
-};
-void setTypmaticSpeed (uint8_t value);
-void setupPICs ();
-void setScanCodeSet (int i);
-KeypressPacket getCurrentScancode ();

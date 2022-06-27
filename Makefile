@@ -28,7 +28,7 @@ clean:
 run: $(usb)
 	@echo "Starting"
 	@touch $(logfile)
-	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -usb -usbdevice disk::$(usb) -serial file:$(logfile)
+	@qemu-system-x86_64 -L ovmf-x64/ -bios ovmf-x64/OVMF-pure-efi.fd -net none -no-reboot -usb -device usb-storage,drive=xxx -drive file=$(usb),if=none,id=xxx -serial file:$(logfile)
 	@#@qemu-system-x86_64 -cdrom $(iso) -serial stdio -no-reboot -m 8G
 
 debug: $(usb)
